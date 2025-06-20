@@ -1,9 +1,24 @@
 :root{
-    --botones_principales: #6B8E23;
+    /* Paleta natural y sustentable */
+    /* --botones_principales: #6B8E23;
     --fondo_suave: #A8D5BA;
     --fondo_principal: #F7F5EB;
     --texto: #8B6E4E;
-    --lineas_separadores: #D9D9D9;
+    --lineas_separadores: #D9D9D9; */
+
+    /* Paleta profesional y minimalista */
+    --botones_principales: #4A6FA5;
+    --fondo_suave: #D3E2F1;
+    --fondo_principal: #F5F7FA;
+    --texto: #3E3E3E;
+    --lineas_separadores: #9BA6B2;
+
+    /* Paleta amigable y vibrante */
+    /* --botones_principales: #2196F3;
+    --fondo_suave: #FFEB3B;
+    --fondo_principal: #CDDC39;
+    --texto: #FFFFFF;
+    --lineas_separadores: #E0E0E0; */
 }
 
 html {
