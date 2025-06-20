@@ -1,0 +1,124 @@
+
+.header{
+    background-color: var(--fondo_principal);
+}
+.main{
+    background-color: var(--fondo_principal);
+}
+.mis-trueques{
+    background-color: var(--fondo_principal);
+}
+.trueques-guardados{
+    background-color: var(--fondo_principal);
+}
+@media (min-width: 768px){
+    .header{
+        background-color:transparent;
+    }
+    .main{
+        background-color: transparent;
+    }
+    .mis-trueques{
+        background-color: transparent;
+    }
+    .trueques-guardados{
+    background-color: transparent;
+    }
+}
+
+.navegacion__titulo{
+    font-size: 4rem;
+    color: var(--texto);
+    font-weight: bold;
+}
+.navegacion{
+    padding: 2rem;
+    background-color: var(--lineas_separadores);
+}
+.usuario__informacion--bold{
+    font-weight: bold;
+}
+.usuario{
+    padding: 2rem;
+    border-bottom: 3px solid var(--lineas_separadores);
+}
+
+
+@media (min-width: 768px){
+    .usuario{
+        display: grid;
+        grid-template-columns: 27% 73%;
+        column-gap: 2rem;
+    }
+    .usuario__informacion{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+        padding-right: 2rem;
+    }
+    .usuario__imagen{
+        width: 100%;
+    }
+}
+
+.ubicacion {
+    padding: 4rem 0;
+    border-bottom: 3px solid var(--lineas_separadores);
+}
+
+.ubicacion__titulo{
+    margin-bottom: 2rem;
+}
+
+.ubicacion__mapa{
+    width: 80%;
+    max-width: 60rem;
+    display: block;
+    margin: 0 auto;
+    border: 3px solid var(--lineas_separadores); /* Borde visible */
+    border-radius: 0.8rem; /* Esquinas redondeadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+}
+
+.mis-trueques__titulo{
+    font-weight: bold;
+    padding: 2rem 0;
+}
+
+.trueque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--lineas_separadores);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.trueque__imagen {
+    width: 4rem;
+    height: auto;
+}
+.trueques {
+        display: grid;
+        gap: 2rem;
+        padding: 2rem;
+        border-bottom: 3px solid var(--lineas_separadores);
+    }
+@media (min-width: 768px){
+    .trueques {
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 2rem;
+        padding: 2rem;
+    }
+}
+
+.trueques-guardados__titulo{
+    font-weight: bold;
+    padding: 2rem 0;
+}
+.trueques-guardados .trueques{
+    border: none;
+}
