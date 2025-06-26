@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="src/css/normalize.css">
+    <link rel="stylesheet" href="src/css/variables_globales.css">
     <link rel="stylesheet" href="src/css/normalize.css">
     <link rel="stylesheet" href="src/css/css_crear_trueque.css">
 
@@ -20,36 +20,51 @@
             <li id="seccion3"><a href="mi_usuario.html">Mi perfil</a></li>
         </ul>
     </nav>
+    
 </header> 
-
-    <h2 >Crear trueque</h2>
-    <div>
-        <div id="paso1">
-            <h3>Seleccione la categoria de su producto</h3>
-            <div class="categorias">
-            <div class="categoria">opcion 1</div>
-            <div class="categoria">opcion 2</div>
-            <div class="categoria">opcion 3</div>
-            <div class="categoria">opcion 4</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-            <div class="categoria">opcion 5</div>
-
-            </div>
+    
+    <h3>Crear trueque</h3>
+    <h5 class="pasos">Seleccione la categorias de su objeto</h5>
+    <details class="categoria">
+        <summary id="" >CATEGORIAS</summary>
+        <div class="opciones">
+        <div class="subcategorias">Opcion 1</div>
+        <div class="subcategorias">Opcion 2</div>
+        <div class="subcategorias">Opcion 3</div>
+        <div class="subcategorias">Opcion 4</div>
         </div>
-        <div id="error-categorias"></div> <!-- Aca iria el mensaje de error si no seleccionamos nada -->
-        <div class="contenedor-boton">
-        <button class="botones" id="siguiente1">Siguiente</button>
+    </details>
+
+    <h5 class="pasos">Ingrese el nombre de su producto</h5>
+    <div "> 
+        <input class="nombre_producto" type="text" placeholder="Nombre del producto">
+    </div>
+    
+    <h5 class="pasos">Seleccion el estado de su objeto</h5>
+    <details class="categoria">
+        <summary  >Estado del objeto</summary>
+        <div class="opciones">
+        <div class="subcategorias">Nuevo</div>
+        <div class="subcategorias">Usado</div>
+        <div class="subcategorias">Re acondicionado</div>
+        <div class="subcategorias">Estado</div>
         </div>
+    </details>
+
+        <h5 class="pasos">Seleccione la categorias del objeto que busca </h5>
+    
+    <details class="categoria">
+        <summary id="" >CATEGORIAS</summary>
+        <div class="opciones">
+        <div class="subcategorias">Opcion 1</div>
+        <div class="subcategorias">Opcion 2</div>
+        <div class="subcategorias">Opcion 3</div>
+        <div class="subcategorias">Opcion 4</div>
+        </div>
+    </details>
+        <h5 class="pasos"> Agregue imagenes de su producto</h5>
+    <div class="imagen_producto">
+        <input type="file" placeholder="Imagen producto">
     </div>
 
 
