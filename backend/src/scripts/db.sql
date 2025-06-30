@@ -1,4 +1,4 @@
-create table usuario(
+create table usuarios(
     id serial primary key,
     nombre varchar(50) not null,
     mail varchar(50) not null,
@@ -24,7 +24,7 @@ create table trueque(
     usuario_solicitante_id int REFERENCES usuario (id) not null
 );
 
-INSERT INTO usuario(nombre, mail, clave, ubicacion, reputacion) VALUES
+INSERT INTO usuarios(nombre, mail, clave, ubicacion, reputacion) VALUES
 ('Eric Rodriguez', 'eric_rodriguez@gmail.com', '123456', 'Flores', 3),
 ('Ana Torres', 'ana_torres@gmail.com', 'abcdef', 'Palermo', 4),
 ('Luis Pérez', 'luis_perez@hotmail.com', 'luis123', 'Belgrano', 5),
