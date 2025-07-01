@@ -4,9 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="src/css/variables_globales.css">
     <link rel="stylesheet" href="src/css/normalize.css">
-    <link rel="stylesheet" href="src/css/css_crear_trueque.css">
+    <link rel="stylesheet" href="src/css/css_objetos.css">
 
-    <title>Creacion Trueque</title>
+    <title>Añadir objeto</title>
 </head>
 <body>
 <header class="header">
@@ -23,7 +23,7 @@
     
 </header> 
     
-    <h3>Crear trueque</h3>
+    <h3>Añadir objeto</h3>
     <h5 class="pasos">Seleccione la categorias de su objeto</h5>
     <details class="categoria">
         <summary id="" >CATEGORIAS</summary>
@@ -35,9 +35,9 @@
         </div>
     </details>
 
-    <h5 class="pasos">Ingrese el nombre de su producto</h5>
+    <h5 class="pasos">Ingrese el nombre de su objeto</h5>
     <div "> 
-        <input class="nombre_producto" type="text" placeholder="Nombre del producto">
+        <input class="datos_producto" type="text" placeholder="Nombre del producto">
     </div>
     
     <h5 class="pasos">Seleccion el estado de su objeto</h5>
@@ -47,26 +47,20 @@
         <div class="subcategorias">Nuevo</div>
         <div class="subcategorias">Usado</div>
         <div class="subcategorias">Re acondicionado</div>
-        <div class="subcategorias">Estado</div>
         </div>
     </details>
 
-        <h5 class="pasos">Seleccione la categorias del objeto que busca </h5>
     
-    <details class="categoria">
-        <summary id="" >CATEGORIAS</summary>
-        <div class="opciones">
-        <div class="subcategorias">Opcion 1</div>
-        <div class="subcategorias">Opcion 2</div>
-        <div class="subcategorias">Opcion 3</div>
-        <div class="subcategorias">Opcion 4</div>
-        </div>
-    </details>
-        <h5 class="pasos"> Agregue imagenes de su producto</h5>
-    <div class="imagen_producto">
-        <input type="file" placeholder="Imagen producto">
+
+    <h5 class="pasos"> Agregue imagenes de su objeto</h5>
+    <div >
+        <input class="datos_producto" type="file" placeholder="Imagen producto">
     </div>
 
+    <h5 class="pasos">Ingrese una breve descripcion </h5>
+    <div >
+        <input id="decripcion" class="datos_producto" type="text" placeholder="Descripcion del objeto">
+    </div>
 
 </body>
 </html>

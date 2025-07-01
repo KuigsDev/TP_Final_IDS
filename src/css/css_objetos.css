@@ -70,9 +70,10 @@ h2 ,h3{
     margin-bottom: 10px;
 }
 
+
 .pasos{
     text-align: center;
-    margin-top: 20px;
+    margin-top: 20px ;
     margin-bottom: 10px;
 }
 
@@ -129,13 +130,13 @@ h2 ,h3{
     background-color:#7eaaeb;
 }
 
-.nombre_producto {
+.datos_producto {
     background-color: var(--fondo_suave);
     font-size: 0.8em;
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin: 10px auto;
+    margin: 20px auto;
     flex-wrap: wrap;
     border: 4px;
     border-style: solid;
@@ -146,19 +147,7 @@ h2 ,h3{
     box-sizing: border-box; 
 }
 
-.imagen_producto {
-    background-color: var(--fondo_suave);
-    font-size: 0.8em;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin: 10px auto;
-    flex-wrap: wrap;
-    border: 4px;
-    border-style: solid;
-    border-radius: 6px;
-    padding: 10px;
-    max-width: 800px;
-    justify-content: center;
-    box-sizing: border-box; 
+#descripcion{
+    margin-bottom: 10px ;
 }
+
