@@ -4,7 +4,8 @@ create table usuarios(
     mail varchar(50) not null,
     clave varchar(16) not null,
     ubicacion varchar(500) not null,
-    reputacion int not null
+    reputacion int not null,
+    imagen bytea,
 );
 create table producto(
     id serial primary key,
@@ -13,6 +14,7 @@ create table producto(
     categoria varchar(50) not null,
     estado varchar(50) not null,
     fecha_publicacion date not null,
+    imagen bytea,
     usuario_id int REFERENCES usuario (id) not null
 );
 create table trueque(

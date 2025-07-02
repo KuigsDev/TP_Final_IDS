@@ -7,6 +7,9 @@ const {
     getAllUsuarios,
     getOneUsuarios,
     createUsuario,
+    mailCheck,
+    deleteUsuario,
+    updateUsuario,
 } = require("./scripts/trueque_libre");
 
 app.get("/api/health",(req,res)=>{
@@ -28,28 +31,53 @@ app.get("/api/usuarios/:id",async(req,res)=>{
 });
 //insert
 app.post("/api/usuarios",async(req,res)=>{
-    try{
-    const usuario =await createUsuario(
-        req.body.nombre,
-        req.body.mail,
-        req.body.clave,
-        req.body.ubicacion,
-        req.body.reputacion
-    );
-    res.status(201).json({ message: "Usuario creado", filasAfectadas: usuario });
+    if (!req.body.nombre || !req.body.mail || !req.body.clave || !req.body.ubicacion) {
+        return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
-    catch (error) {
-        console.error("Error al crear usuario:", error);
-        res.status(500).json({ error: "Error del servidor" });
+    else{
+        const existe = await mailCheck(req.body.mail)
+        if (existe > 0) {
+            return res.status(409).json({ error: "El mail ya está registrado" });
+        }
+        else{
+            const usuario =await createUsuario(
+                req.body.nombre,
+                req.body.mail,
+                req.body.clave,
+                req.body.ubicacion,
+                3
+            );
+            res.status(201).json({ message: "Usuario creado", filasAfectadas: usuario });
+        }
     }
 });
 //delete
-app.delete("/api/usuarios/:id",(req,res)=>{
-    res.json({status:"OK"})
+app.delete("/api/usuarios",async(req,res)=>{
+    const { mail, clave } = req.body;
+    if(!mail || !clave){
+        return res.status(400).json({ error: "Faltan campos obligatorios" });
+    }
+    else{
+        const filasAfectadas = await deleteUsuario(mail, clave);
+
+        if (filasAfectadas > 0) {
+            return res.status(200).json({ message: "Usuario eliminado", filasAfectadas });
+        } else {
+            return res.status(401).json({ error: "Credenciales incorrectas" });
+        }
+        
+    }
 });
 //update
-app.put("/api/usuarios/:id",(req,res)=>{
-    res.json({status:"OK"})
+app.put("/api/usuarios",async(req,res)=>{
+    const {nombre,mail,clave,ubicacion,mail_actual} = req.body;
+    if (!nombre || !mail || !clave || !ubicacion || !mail_actual){
+        return res.status(400).json({ error: "Faltan campos obligatorios" });
+    }
+    else{
+        const usuario = updateUsuario(nombre,mail,clave,ubicacion,mail_actual);
+        return res.status(200).json({ message: "Usuario actualizado", usuario});
+    }
 });
 
 app.listen(PORT, () => {
