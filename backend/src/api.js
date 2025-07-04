@@ -10,8 +10,10 @@ const {
     mailCheck,
     deleteUsuario,
     updateUsuario,
-} = require("./scripts/trueque_libre");
+} = require("./scripts/crud_usuarios");
 
+
+// Ver que la API este funcionando
 app.get("/api/health",(req,res)=>{
     res.json({status:"OK"})
 });
@@ -31,7 +33,12 @@ app.get("/api/usuarios/:id",async(req,res)=>{
 });
 //insert
 app.post("/api/usuarios",async(req,res)=>{
-    if (!req.body.nombre || !req.body.mail || !req.body.clave || !req.body.ubicacion) {
+
+    if (!req.body){
+        return res.status(400).json({ error: "Faltan campos obligatorios" });
+    }
+
+    else if (!req.body.nombre || !req.body.mail || !req.body.clave || !req.body.ubicacion) {
         return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
     else{
@@ -83,3 +90,54 @@ app.put("/api/usuarios",async(req,res)=>{
 app.listen(PORT, () => {
     console.log("Server Listening on PORT:", PORT);
 });
+
+const {    
+    getAllObjetos,
+    getOneObjeto,
+    getFromUsuario,
+    getOBjetosRecientes,
+    createObjeto,
+    deleteObjeto,
+    updateOBjeto} = require("./scripts/crud_objetos");
+
+
+app.get("/api/objetos", async(req,res) =>{
+    const objetos = await getAllObjetos();
+    res.json(objetos);
+});
+
+app.get("/api/objetos/:id", async(req,res)=>{
+    const objeto = await getOneObjeto(req.params.id);
+    res.json(objeto);
+});
+
+app.get("/api/usuarios/objetos/:id", async (req,res) =>{
+    console.log("PRPARP...")
+    const objetos = await getFromUsuario(req.params.id)
+    res.json(objetos)
+});
+
+app.post("/api/objetos/:id",async(req,res) => {
+    if(!req.body){
+        return res.status(400).json({ error: "Faltan campos obligatorios" });
+    }
+
+    else if ( !req.body.nombre || !req.body.descripcion || !req.body.categoria || !req.body.imagen || !req.body.estado || !req.body.fecha_publicacion ) {
+            return res.status(400).json({ error: "Faltan campos obligatorios" });
+        }
+    else{
+        const objetos = await createObjeto(
+            req.body.nombre,
+            req.body.descripcion,
+            req.body.categoria,
+            req.body.estado,
+            req.body.fecha_publicacion,
+            req.body.imagen,
+            req.params.id
+        );
+        res.status(201).json({ message: "Objeto publicado", filasAfectadas: objetos });
+    }
+});
+
+
+

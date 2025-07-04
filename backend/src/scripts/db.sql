@@ -5,7 +5,7 @@ create table usuarios(
     clave varchar(16) not null,
     ubicacion varchar(500) not null,
     reputacion int not null,
-    imagen bytea,
+    imagen varchar(100)
 );
 create table producto(
     id serial primary key,
@@ -15,7 +15,7 @@ create table producto(
     estado varchar(50) not null,
     fecha_publicacion date not null,
     imagen bytea,
-    usuario_id int REFERENCES usuario (id) not null
+    usuario_id int REFERENCES usuarios (id) not null
 );
 create table trueque(
     id serial primary key,
@@ -23,7 +23,7 @@ create table trueque(
     producto_deseado_id int REFERENCES producto (id) not null,
     estado varchar(50) not null,
     fecha date not null,
-    usuario_solicitante_id int REFERENCES usuario (id) not null
+    usuario_solicitante_id int REFERENCES usuarios (id) not null
 );
 
 INSERT INTO usuarios(nombre, mail, clave, ubicacion, reputacion) VALUES
