@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 3000;
 
 const {
     getAllUsuarios,
-    getOneUsuarios,
+    getMiUsuario,
     createUsuario,
     mailCheck,
     deleteUsuario,
@@ -14,8 +14,8 @@ const {
 
 
 // Ver que la API este funcionando
-app.get("/api/health",(req,res)=>{
-    res.json({status:"OK"})
+app.get("/api/health", async(req,res)=>{
+    res.json({status:"Hola"})
 });
 
 //get all
@@ -25,11 +25,14 @@ app.get("/api/usuarios", async(req,res)=>{
 });
 //get one
 app.get("/api/usuarios/:id",async(req,res)=>{
-    const usuario =await getOneUsuarios(req.params.id);
-    if (!usuario){
-        return res.status(404).json({error:"usuario not found"});
+    try {
+        const data = await getMiUsuario(req.params.id);
+        if (!data) return res.status(404).json({ error: "Usuario no encontrado" });
+        res.json(data);
+    } catch (error) {
+        console.error("Error en /api/usuario/:id", error);
+        res.status(500).json({ error: "Error interno" });
     }
-    res.json(usuario);
 });
 //insert
 app.post("/api/usuarios",async(req,res)=>{
