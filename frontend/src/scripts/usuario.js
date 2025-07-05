@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    cargarDatosUsuario(10); // ID hardcodeado por ahora
+    cargarDatosUsuario(6); // ID hardcodeado por ahora
 });
 
 function cargarDatosUsuario(id) {
