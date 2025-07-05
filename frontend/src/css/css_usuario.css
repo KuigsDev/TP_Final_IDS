@@ -59,6 +59,7 @@
     }
     .usuario__imagen{
         width: 100%;
+        height: 20rem;
     }
 }
 
@@ -115,10 +116,88 @@
     }
 }
 
-.trueques-guardados__titulo{
-    font-weight: bold;
-    padding: 2rem 0;
+.productos {
+    display: grid;
+    gap: 2rem;
+    padding: 2rem;
+    border-bottom: 3px solid var(--lineas_separadores);
 }
-.trueques-guardados .trueques{
+
+@media (min-width: 768px) {
+    .productos {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.producto {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--lineas_separadores);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+.producto__imagen {
+    width: 20rem;
+    height: auto;
+}
+.trueque__nombre {
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin: 0.5rem 0;
+}
+
+.trueque__acciones {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
     border: none;
+    border-radius: 0.4rem;
+    font-weight: bold;
+    cursor: pointer;
 }
+
+.btn.aceptar {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn.rechazar {
+    background-color: #F44336;
+    color: white;
+}
+
+.producto {
+    position: relative;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.producto__acciones {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.producto__icono {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.producto__icono:hover {
+    opacity: 1;
+}
+
