@@ -12,6 +12,9 @@ const {
     updateUsuario,
 } = require("./scripts/crud_usuarios");
 
+const cors = require('cors');
+app.use(cors());
+
 
 // Ver que la API este funcionando
 app.get("/api/health", async(req,res)=>{
