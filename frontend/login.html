@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Trueque Libre</title>
+    <link rel="preload" href="src/css/normalize.css" as="style">
+    <link rel="preload" href="src/css/variables_globales.css" as="style">
+    <link rel="stylesheet" href="src/css/normalize.css">
+    <link rel="stylesheet" href="src/css/variables_globales.css">
+    <link rel="stylesheet" href="src/css/login.css"> <!-- Estilos específicos -->
+</head>
+<body>
+    <main class="contenedor login">
+        <h1 class="centrar-texto">Iniciar Sesión</h1>
+
+        <form class="formulario-login" id="form-login">
+            <div class="campo">
+                <label for="email">Correo electrónico</label>
+                <input type="email" id="email" name="email" placeholder="tuemail@ejemplo.com" required>
+            </div>
+
+            <div class="campo">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="Tu contraseña" required>
+            </div>
+
+            <div class="acciones">
+                <button type="submit" class="btn">Iniciar sesión</button>
+                <a href="registro.html" class="btn btn-secundario">Registrarse</a>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

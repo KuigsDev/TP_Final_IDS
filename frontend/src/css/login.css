@@ -1,0 +1,127 @@
+body {
+    margin: 0;
+    font-size: 1.6rem;
+    background-color: var(--fondo_suave);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Contenedor del login */
+.contenedor.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--fondo_principal);
+    padding: 4rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.05);
+    width: 90%;
+    max-width: 50rem;
+}
+
+/* Título */
+.contenedor.login h1 {
+    color: var(--texto);
+    font-size: 3rem;
+    margin-bottom: 3rem;
+}
+
+/* Formulario */
+.formulario-login {
+    width: 100%;
+}
+
+/* Campos */
+.campo {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.campo label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--texto);
+}
+
+.campo input {
+    padding: 1rem;
+    border: 1px solid var(--lineas_separadores);
+    border-radius: 0.5rem;
+    font-size: 1.6rem;
+}
+
+/* Acciones */
+.acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    padding: 1rem;
+    background-color: var(--botones_principales);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.6rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #3a5b88;
+}
+
+.btn-secundario {
+    background-color: transparent;
+    color: var(--botones_principales);
+    border: 2px solid var(--botones_principales);
+}
+
+.btn-secundario:hover {
+    background-color: var(--botones_principales);
+    color: white;
+}
+
+/* Responsive (opcional si ampliás a pantallas grandes) */
+@media (min-width: 768px) {
+    .acciones {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .acciones .btn {
+        width: 48%;
+    }
+}
+
+.campo input[type="file"] {
+    padding: 1rem;
+    font-size: 1.6rem;
+    border: 1px solid var(--lineas_separadores);
+    border-radius: 0.5rem;
+    background-color: #fff;
+    color: var(--texto);
+    cursor: pointer;
+}
+
+/* Opcional: estilizar el texto que muestra el nombre del archivo */
+.campo input[type="file"]::file-selector-button {
+    background-color: var(--botones_principales);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.campo input[type="file"]::file-selector-button:hover {
+    background-color: #3a5b88;
+}
