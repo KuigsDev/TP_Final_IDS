@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trueque Libre</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <header role="banner" class="header__nav">
+        <div class="header__nav__container">
+            <div class="header__container__icon">
+                <a class="header__icon__link"><img class="header__icon__link__img" src="imagenes/icono_trueque.png"></a>  
+            </div>
+            <div class="header__container__input">
+                <input type="text" class="header__input" placeholder="Buscar en Trueque Libre..."></input>
+            </div>
+            <div class="header__container__image">
+                <img src="imagenes/logo_fiuba.png" alt="logo fiuba">
+            </div>
+            <div class="nav__area">
+                 <nav role="navigation" class="header__navbar">
+                        <div class="nav__menu">
+                            <ul class="nav__menu__list">
+                                <li class="nav__menu__item">
+                                    <a href="#">Home</a>
+                                </li>
+                                <li class="nav__menu__item">
+                                    <a href="#">Perfil</a>
+                                </li>
+                                <li class="nav__menu__item">
+                                    <a href="#">Trueques</a>
+                                </li>
+                                <li class="nav__menu__item">
+                                    <a href="#">Favoritos</a>
+                                </li>
+                                <li class="nav__menu__item">
+                                    <a href="#">Contactar</a>
+                                </li>
+                            
+                            </ul>
+                        </div>
+                 </nav>
+            </div>
+            <!-- Responsive Navbar -->
+             <div class="navigation">
+                <ul>
+                <li>
+                    <a href="#">
+                    <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                    <span class="text">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                    <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                    <span class="text">Perfil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                    <span class="icon"><ion-icon name="push-outline"></ion-icon></span>
+                    <span class="text">Trueques</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                    <span class="icon"><ion-icon name="bookmark-outline"></ion-icon></span>
+                    <span class="text">Favoritos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                    <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
+                    <span class="text">Mensaje</span>
+                    </a>
+                </li>
+                </ul>
+                </div>
+        </div>
+    </header>
+    <main role="main" id="root-app">
+        <!-- Carrusel -->
+        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="5000">
+                <img src="imagenes/carrusel_img_1.jpg" class="d-block w-100" alt="img1">
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                <img src="imagenes/carrusel_img_2.jpg" class="d-block w-100" alt="img2">
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                <img src="imagenes/carrusel_img_3.jpg" class="d-block w-100" alt="img3">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Siguiente</span>
+            </button>
+        </div>
+        <div class="gradient"></div>
+        <!-- Div dinámico -->
+        <div class="div__container">
+            <div class="div__options">
+            <div class="div__options__card1 div__options__card">
+                <h2 class="options__card__title">Ingresá a tu cuenta</h2>
+                <img src="imagenes/imagen_opciones_cuenta.png">
+                <p>Disfrutá del acceso a trueques.</p>
+                <a class="button__container--default"><span class="button__text--default">Ingresar a tu cuenta</span></a>
+            </div>
+            <div class="div__options__card2 div__options__card">
+                <h2 class="options__card__title">Encontrá trueques</h2>
+                <img src="imagenes/imagen_opciones_trueque.png">
+                <p>Buscá el trueque que necesitas.</p>
+                <a class="button__container--default"><span class="button__text--default">Buscar Trueques</span></a>
+            </div>
+            <div class="div__options__card3 div__options__card">
+                <h2 class="options__card__title">Historial</h2>
+                <img src="imagenes/imagen_opciones_historial.png">
+                <p>Mirá alguna búsqueda pasada.</p>
+                <a class="button__container--default"><span class="button__text--default">Ingresar a Historial</span></a>
+            </div>
+            <div class="div__options__card4 div__options__card">
+                <h2 class="options__card__title">Contáctanos</h2>
+                <img src="imagenes/imagen_opciones_contactar.png">
+                <p>¿Algún problema? Mándanos un mail.</p>
+                <a class="button__container--default"><span class="button__text--default">Contactar</span></a>
+            </div>
+            </div>
+            <div class="div__offers">
+                <div class="div__offers__primary">
+                    <img class="div__offers__primary__icon" src="imagenes/icono_fuego.png">
+                    <h1>Trueque destacado</h1>
+                    <img class="div__offers__primary__img" src="imagenes/ejemplo_trueque1.jpg" alt="trueque destacado">
+                    <p class="div__offers__primary__title">Bicleta Rodado 29</p>
+                    <p class="div__offers__p change">Cambio por celular, computadora</p>
+                    <div class="div__offers__category">
+                            <p class="item__category">Bicicletas</p>
+                            <p class="item__category">Transporte</p>
+                    </div>
+                    <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> San Telmo</p>
+                    <a style="background: rgb(236, 154, 2) !important;" class="button__container--default" href="#"><span class="button__text--default" style="color: rgb(236, 236, 236)">Ver más</span></a>
+                </div>
+                <div class="div__offers__secondary">
+                    <div class="div__offers__secondary__title">
+                        <h1>Más trueques...</h1>
+                    </div>
+                    <div class="div__offers__secondary__card">
+                        <img src="imagenes/carrusel_img_1.jpg" alt="">
+                        <p class="offers__title">Nombre del trueque 1</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Caja</p>
+                            <p class="item__category">Accesorio</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 1</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                    <div class="div__offers__secondary__card">
+                        <img src="imagenes/carrusel_img_2.jpg" alt="">
+                        <p class="offers__title">Nombre del trueque 2</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Caja</p>
+                            <p class="item__category">Accesorio</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 2</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                    <div class="div__offers__secondary__card">
+                        <img src="imagenes/carrusel_img_3.jpg" alt="">
+                        <p class="offers__title">Nombre del trueque 3</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Muebles</p>
+                            <p class="item__category">Hogar</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 3</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                    </div>
+                </div>
+                <div class="div__container__trueques">
+                    <div class="div__container__trueques__title">
+                        <h1>Trueques recientes</h1>
+                    </div>
+                    <div class="div__card__trueque">
+                        <img src="imagenes/carrusel_img_3.jpg" alt="">
+                        <p class="offers__title">Nombre del trueque 1</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Muebles</p>
+                            <p class="item__category">Hogar</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 1</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                    <div class="div__card__trueque">
+                        <img src="imagenes/carrusel_img_2.jpg">
+                        <p class="offers__title">Nombre del trueque 2</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Caja</p>
+                            <p class="item__category">Accesorio</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 2</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                    <div class="div__card__trueque">
+                        <img src="imagenes/carrusel_img_3.jpg"><p class="offers__title">Nombre del trueque 3</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Muebles</p>
+                            <p class="item__category">Hogar</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 3</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                    <div class="div__card__trueque">
+                        <img src="imagenes/carrusel_img_2.jpg">
+                        <p class="offers__title">Nombre del trueque 4</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Caja</p>
+                            <p class="item__category">Accesorio</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 4</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                    <div class="div__card__trueque">
+                        <img src="imagenes/carrusel_img_1.jpg">
+                        <p class="offers__title">Nombre del trueque 5</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Caja</p>
+                            <p class="item__category">Accesorio</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 5</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                    <div class="div__card__trueque">
+                        <img src="imagenes/carrusel_img_2.jpg">
+                        <p class="offers__title">Nombre del trueque 6</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Caja</p>
+                            <p class="item__category">Accesorio</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 6</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                    <div class="div__card__trueque">
+                        <img src="imagenes/carrusel_img_1.jpg">
+                        <p class="offers__title">Nombre del trueque 7</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Caja</p>
+                            <p class="item__category">Accesorio</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 7</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                    <div class="div__card__trueque">
+                        <img src="imagenes/carrusel_img_2.jpg">
+                        <p class="offers__title">Nombre del trueque 8</p>
+                        <p class="div__offers__p change">por que cosas cambia</p>
+                        <div class="div__offers__category">
+                            <p class="item__category">Caja</p>
+                            <p class="item__category">Accesorio</p>
+                        </div>
+                        <p class="div__offers__p location"><i class="bi bi-caret-right-fill"></i> Ubicacion 8</p>
+                        <a class="button__container--default" href="#"><span class="button__text--default">Ver más</span></a>
+                    </div>
+                </div>
+                <div class="div__card__image">
+                    <div class="card__image__1">
+                        <h1>INTERCAMBIA TELEFONOS</h1>
+                        <div>
+                            <img src="imagenes/imagen_telefonos.jpg" alt="imagen telefonos">
+                        </div>
+                   </div>
+                    <div class="card__image__2">
+                        <h1>NO TIRES LO VIEJO</h1>
+                        <div>
+                        <img src="imagenes/imagen_usados.jpg" alt="imagen ropa">
+                        </div>
+                    </div>
+                    <div class="card__image__3">
+                        <h1>MOVILIZATE</h1>
+                        <div>
+                        <img src="imagenes/imagen_automovil.jpg" alt="imagen auto">
+                        </div>
+                    </div>
+                </div>
+                <div class="div__container__ad">
+                    <div class="div__ad__card__1">
+                        <div>
+                            <img class="ad-image" src="imagenes/imagen_categorias_auto.jpg" alt="imagen automovil">
+                        </div>
+                        <div class="div__ad__card__info1">
+                            <img class="info-image" src="imagenes/logo_trueque_blanco.png" alt="logo trueque libre">
+                            <p>TODOS LOS MODELOS</p>
+                            <h1 class="info-title">TRANSPORTE</h1>
+                        </div>
+                    </div>
+                    <div class="div__ad__card__2">
+                        <div>
+                            <img class="ad-image" src="imagenes/imagen_categorias_zapatillas.jpg" alt="imagen zapatillas">
+                        </div>
+                        <div class="div__ad__card__info2">
+                            <img class="info-image" src="imagenes/logo_trueque_blanco.png" alt="logo trueque libre">
+                            <p>TODOS LOS TALLES</p>
+                            <h1 class="info-title">ZAPATILLAS</h1>
+                        </div>
+                    </div>
+                </div>
+                    <div class="div__dinamic__container"></div>
+                    <div id="end-message" class="end-message">No hay más tarjetas disponibles.</div>
+            </div>        
+        </main>
+    <footer class="footer">
+        <img class="footer__logo" src="imagenes/icono_trueque.png" alt="logo trueque libre">
+        <p>Aplicación desarrollada para la materia Introducción al Desarrollo de Software.</p>
+    </footer>
+
+
+    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <!-- Ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
