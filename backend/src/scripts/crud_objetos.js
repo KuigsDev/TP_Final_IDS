@@ -3,7 +3,7 @@ const { Pool } = require("pg");
 const dbClient = new Pool({
     user: "postgres",
     port: 5432,
-    host: "localhost",
+    host: "postgres",
     database: "trueque_libre",
     password: "postgres"
 });
@@ -48,6 +48,8 @@ async function updateObjeto(id, nombre, descripcion, categoria, estado, imagen) 
     );
     return result.rowCount;
 }
+
+
 
 module.exports = {
     getAllObjetos,

@@ -101,28 +101,32 @@ const {
     getAllObjetos,
     getOneObjeto,
     getFromUsuario,
-    getOBjetosRecientes,
+    getObjetosRecientes,
     createObjeto,
     deleteObjeto,
-    updateOBjeto} = require("./scripts/crud_objetos");
+    updateObjeto} = require("./scripts/crud_objetos");
 
+
+//Obtener todos los objetos
 
 app.get("/api/objetos", async(req,res) =>{
     const objetos = await getAllObjetos();
     res.json(objetos);
 });
 
+//Obtener un objeto
 app.get("/api/objetos/:id", async(req,res)=>{
     const objeto = await getOneObjeto(req.params.id);
     res.json(objeto);
 });
 
+//Obtener objetos de usuario
 app.get("/api/usuarios/objetos/:id", async (req,res) =>{
-    console.log("PRPARP...")
     const objetos = await getFromUsuario(req.params.id)
     res.json(objetos)
 });
 
+//PUblicar objetos
 app.post("/api/objetos/:id",async(req,res) => {
     if(!req.body){
         return res.status(400).json({ error: "Faltan campos obligatorios" });
@@ -145,5 +149,35 @@ app.post("/api/objetos/:id",async(req,res) => {
     }
 });
 
+//Editar objeto publicado
+app.put("/api/objetos/editar/:id", async (req,res) =>{
+    if (!req.body){
+        return res.status(400).json({ error: "No realizo cambio en el producro"});
+    }
+    else{
+        const objetos = await updateObjeto(
+            req.params.id,
+            req.body.nombre,
+            req.body.descripcion,
+            req.body.categoria,
+            req.body.estado,
+            req.body.imagen
+        );
+        res.status(201).json({ message: "Objeto editado", filasAfectadas: objetos})
+    }
+});
+
+//Borrar objeto 
+
+app.delete("/api/objetos/borrar/:id", async (req,res)=>{
+
+    if (!req.params.id){
+        return res.status(400).json({ error: "No se selecciono un objeto para borrar"});
+    }
+    else {
+        const objetoBorrado = deleteObjeto(req.params.id);
+        res.status(201).json({ message: "Objeto borrado", filasAfectadas: objetoBorrado});
+    };
+})
 
 
