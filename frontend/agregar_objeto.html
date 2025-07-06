@@ -6,61 +6,32 @@
     <link rel="stylesheet" href="src/css/normalize.css">
     <link rel="stylesheet" href="src/css/css_objetos.css">
 
-    <title>Añadir objeto</title>
+    <title>Publicar objeto</title>
 </head>
 <body>
-<header class="header">
-    <div class="Logo">
-        <img src="src/img/objetos/carbon.webp" alt="Logo pagina">
-    </div>
-    <nav>
-        <ul class="secciones">
-            <li id="seccion1"><a href="">Inicio</a></li>
-            <li id="seccion2"><a href="usuario.html">Perfiles</a></li>
-            <li id="seccion3"><a href="mi_usuario.html">Mi perfil</a></li>
-        </ul>
-    </nav>
-    
-</header> 
-    
-    <h3>Añadir objeto</h3>
-    <h5 class="pasos">Seleccione la categorias de su objeto</h5>
-    <details class="categoria">
-        <summary id="" >CATEGORIAS</summary>
-        <div class="opciones">
-        <div class="subcategorias">Opcion 1</div>
-        <div class="subcategorias">Opcion 2</div>
-        <div class="subcategorias">Opcion 3</div>
-        <div class="subcategorias">Opcion 4</div>
+    <button id="abrir_ventana" onclick="abrirVentana()">Publicar objeto</button>
+
+    <!-- Ventana -->
+    <div id="ventana" class="ventana">
+        <div class="ventana-backdrop">
+            <div id="ventana-content" class="ventana-content">
+            <div id="contenido"></div>
+            </div>
         </div>
-    </details>
-
-    <h5 class="pasos">Ingrese el nombre de su objeto</h5>
-    <div "> 
-        <input class="datos_producto" type="text" placeholder="Nombre del producto">
     </div>
-    
-    <h5 class="pasos">Seleccion el estado de su objeto</h5>
-    <details class="categoria">
-        <summary  >Estado del objeto</summary>
-        <div class="opciones">
-        <div class="subcategorias">Nuevo</div>
-        <div class="subcategorias">Usado</div>
-        <div class="subcategorias">Re acondicionado</div>
+
+        <button id="abrir_ventana" onclick="abrirVentanaEditar()">Editar objeto</button>
+
+    <!-- Ventana -->
+    <div id="ventana" class="ventana">
+        <div class="ventana-backdrop">
+            <div id="ventana-content" class="ventana-content">
+            <div id="contenido"></div>
+            </div>
         </div>
-    </details>
-
-    
-
-    <h5 class="pasos"> Agregue imagenes de su objeto</h5>
-    <div >
-        <input class="datos_producto" type="file" placeholder="Imagen producto">
     </div>
 
-    <h5 class="pasos">Ingrese una breve descripcion </h5>
-    <div >
-        <input id="decripcion" class="datos_producto" type="text" placeholder="Descripcion del objeto">
-    </div>
+<script src="src/scripts/objeto.js"></script>
 
 </body>
 </html>

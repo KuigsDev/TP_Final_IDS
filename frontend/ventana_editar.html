@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventana Nueva</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar objeto</title>
+    <link rel="stylesheet" href="src/css/variables_globales.css">
+    <link rel="stylesheet" href="src/css/normalize.css">
+    <link rel="stylesheet" href="src/css/css_objetos.css">
+</head>
+<body style="padding: 1rem">
+
+    
+    <h3>Editar objeto</h3>
+    <h5 class="pasos">Seleccione una nueva categoria de su objeto</h5>
+    <details class="categoria">
+    <summary>CATEGORIAS</summary>
+    <div class="opciones">
+        <div class="subcategorias">Opcion 1</div>
+        <div class="subcategorias">Opcion 2</div>
+        <div class="subcategorias">Opcion 3</div>
+        <div class="subcategorias">Opcion 4</div>
+    </div>
+    </details>
+
+    <h5 class="pasos">Ingrese un nuevo nombre de su objeto</h5>
+    <input class="datos_producto" type="text" placeholder="Nombre del producto">
+
+    <h5 class="pasos">Seleccione el estado de su objeto</h5>
+    <details class="categoria">
+    <summary>Estado del objeto</summary>
+    <div class="opciones">
+        <div class="subcategorias">Nuevo</div>
+        <div class="subcategorias">Usado</div>
+        <div class="subcategorias">Reacondicionado</div>
+    </div>
+    </details>
+
+    <h5 class="pasos">Agregue o elimine imágenes de su objeto</h5>
+    <input class="datos_producto" type="file" placeholder="Imagen producto">
+
+    <h5 class="pasos">Ingrese una nueva descripción</h5>
+    <input id="descripcion" class="datos_producto" type="text" placeholder="Descripción del objeto">
+</body>
+</html>
+<div class="botones">
+    <button onclick="cerrarVentanaEditar()" class="boton-cerrar">Cerrar</button>
+    <button  class="boton-confirmar">Confirmar</button>
+</div>
+</body>
+</html>
