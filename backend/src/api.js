@@ -2,10 +2,45 @@ const express = require('express');
 const app = express ();
 app.use(express.json());
 const PORT = process.env.PORT || 3000;
+const path = require('path');
+const multer = require('multer');
+const fs = require('fs');
+app.use('/img/usuarios', express.static(path.join(__dirname, 'img/usuarios')));
+app.use('/img/objetos', express.static(path.join(__dirname, 'img/objetos')));
+
+// Asegúrate de que la carpeta exista
+const uploadPath = path.join(__dirname, 'img/usuarios');
+
+if (!fs.existsSync(uploadPath)) {
+    fs.mkdirSync(uploadPath, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, uploadPath);
+    },
+    filename: function (req, file, cb) {
+        // Leer archivos existentes para contar cuántos hay
+        fs.readdir(uploadPath, (err, files) => {
+            if (err) return cb(err);
+
+            // Filtrar solo archivos con extensión de imagen
+            const imageFiles = files.filter(f => /\.(jpg|jpeg|png|gif)$/i.test(f));
+            const newId = imageFiles.length + 1;
+
+            const ext = path.extname(file.originalname); // conserva la extensión original
+            const filename = `${newId}${ext}`;
+
+            cb(null, filename);
+        });
+    }
+});
+const upload = multer({ storage });
 
 const {
     getAllUsuarios,
     getMiUsuario,
+    getUsuario,
     createUsuario,
     mailCheck,
     deleteUsuario,
@@ -26,6 +61,7 @@ app.get("/api/usuarios", async(req,res)=>{
     const usuarios =await getAllUsuarios();
     res.json(usuarios);
 });
+
 //get one
 app.get("/api/usuarios/:id",async(req,res)=>{
     try {
@@ -37,61 +73,95 @@ app.get("/api/usuarios/:id",async(req,res)=>{
         res.status(500).json({ error: "Error interno" });
     }
 });
+
+app.get("/api/usuario/:id", async (req, res) => {
+    try {
+        const data = await getUsuario(req.params.id);
+        if (!data || data.rows.length === 0) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+        res.json({ usuario: data.rows[0] });
+    } catch (error) {
+        console.error("Error en /api/usuario/:id", error);
+        res.status(500).json({ error: "Error interno" });
+    }
+});
+
+
 //insert
-app.post("/api/usuarios",async(req,res)=>{
+app.put("/api/usuarios/:id", upload.single('imagen'), async (req, res) => {
+    const id = req.params.id;
+    const { nombre, mail, clave, ubicacion } = req.body;
 
-    if (!req.body){
+    if (!id || !nombre || !mail || !clave || !ubicacion) {
         return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
 
-    else if (!req.body.nombre || !req.body.mail || !req.body.clave || !req.body.ubicacion) {
-        return res.status(400).json({ error: "Faltan campos obligatorios" });
+    const yaUsado = await mailCheck(mail, id);
+    if (yaUsado > 0) {
+        return res.status(409).json({ error: "El mail ya está registrado por otro usuario" });
     }
-    else{
-        const existe = await mailCheck(req.body.mail)
-        if (existe > 0) {
-            return res.status(409).json({ error: "El mail ya está registrado" });
-        }
-        else{
-            const usuario =await createUsuario(
-                req.body.nombre,
-                req.body.mail,
-                req.body.clave,
-                req.body.ubicacion,
-                3
-            );
-            res.status(201).json({ message: "Usuario creado", filasAfectadas: usuario });
-        }
-    }
-});
-//delete
-app.delete("/api/usuarios",async(req,res)=>{
-    const { mail, clave } = req.body;
-    if(!mail || !clave){
-        return res.status(400).json({ error: "Faltan campos obligatorios" });
-    }
-    else{
-        const filasAfectadas = await deleteUsuario(mail, clave);
 
-        if (filasAfectadas > 0) {
-            return res.status(200).json({ message: "Usuario eliminado", filasAfectadas });
+    let imagen = null;
+    if (req.file) {
+        imagen = `/img/usuarios/${req.file.filename}`;
+    }
+
+    try {
+        const result = await updateUsuario(nombre, mail, clave, ubicacion, imagen, id);
+        if (result.rowCount > 0) {
+            return res.status(200).json({ message: "Usuario actualizado correctamente" });
         } else {
-            return res.status(401).json({ error: "Credenciales incorrectas" });
+            return res.status(404).json({ error: "Usuario no encontrado" });
         }
-        
+    } catch (err) {
+        console.error("Error en PUT /api/usuarios/:id", err);
+        return res.status(500).json({ error: "Error del servidor" });
     }
 });
+
+
+//delete
+app.delete("/api/usuarios/:id", async (req, res) => {
+    const id = req.params.id;
+    if (!id) {
+        return res.status(400).json({ error: "Falta el ID" });
+    }
+    try {
+        const result = await deleteUsuario(id);
+        if (result.rowCount > 0) {
+            return res.status(200).json({ message: "Usuario eliminado" });
+        } else {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+    } catch (error) {
+        return res.status(500).json({ error: "Error del servidor" });
+    }
+});
+
 //update
-app.put("/api/usuarios",async(req,res)=>{
-    const {nombre,mail,clave,ubicacion,mail_actual} = req.body;
-    if (!nombre || !mail || !clave || !ubicacion || !mail_actual){
+app.put("/api/usuarios/:id", async (req, res) => {
+    const id = req.params.id;
+    const { nombre, mail, clave, ubicacion, imagen } = req.body;
+
+    if (!nombre || !mail || !clave || !ubicacion) {
         return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
-    else{
-        const usuario = updateUsuario(nombre,mail,clave,ubicacion,mail_actual);
-        return res.status(200).json({ message: "Usuario actualizado", usuario});
+
+    try {
+        const result = await updateUsuario(nombre,mail,clave,ubicacion,imagen,id)
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+
+        res.json({ message: "Usuario actualizado correctamente" });
+    } catch (error) {
+        console.error("Error actualizando usuario:", error);
+        res.status(500).json({ error: "Error al actualizar el usuario" });
     }
 });
+
 
 app.listen(PORT, () => {
     console.log("Server Listening on PORT:", PORT);
@@ -179,5 +249,27 @@ app.delete("/api/objetos/borrar/:id", async (req,res)=>{
         res.status(201).json({ message: "Objeto borrado", filasAfectadas: objetoBorrado});
     };
 })
+
+const {    
+    updateEstado,
+    } = require("./scripts/crud_trueques");
+
+app.put("/api/trueques/:id", async (req, res) => {
+    const { estado } = req.body;
+    const { id } = req.params;
+
+    if (!["aceptado", "rechazado"].includes(estado)) {
+        return res.status(400).json({ error: "Estado inválido" });
+    }
+
+    const result = await updateEstado(estado,id);
+
+    if (result.rowCount > 0) {
+        res.status(200).json({ mensaje: "Estado actualizado correctamente" });
+    } else {
+        res.status(404).json({ error: "Trueque no encontrado" });
+    }
+});
+
 
 

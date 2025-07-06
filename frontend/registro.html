@@ -11,7 +11,7 @@
 <body>
     <main class="contenedor login">
         <h1>Crear cuenta</h1>
-        <form class="formulario-login">
+        <form id="registro-form" class="formulario-login" enctype="multipart/form-data">
             <div class="campo">
                 <label for="nombre">Nombre completo:</label>
                 <input type="text" id="nombre" placeholder="Tu nombre" required>
@@ -39,9 +39,9 @@
 
             <div class="acciones">
                 <button type="submit" class="btn">Registrarme</button>
-                <a href="login.html" class="btn btn-secundario">Ya tengo cuenta</a>
             </div>
         </form>
     </main>
+    <script src="src/scripts/registrar_usuario.js"></script>
 </body>
 </html>

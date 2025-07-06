@@ -46,7 +46,8 @@ async function getMiUsuario(id) {
             o2.id AS deseado_id,
             o2.nombre AS deseado_nombre,
             t.usuario_solicitante_id,
-            us.nombre AS nombre_solicitante
+            us.nombre AS nombre_solicitante,
+            ud.nombre AS nombre_destinatario
 
         FROM usuarios u
         LEFT JOIN objetos p ON p.usuario_id = u.id
@@ -56,7 +57,8 @@ async function getMiUsuario(id) {
             t.objeto_deseado_id = p.id
         LEFT JOIN objetos o1 ON o1.id = t.objeto_ofrecido_id
         LEFT JOIN objetos o2 ON o2.id = t.objeto_deseado_id
-        LEFT JOIN usuarios us ON us.id = t.usuario_solicitante_id   
+        LEFT JOIN usuarios us ON us.id = t.usuario_solicitante_id  
+        LEFT JOIN usuarios ud ON ud.id = o2.usuario_id 
         WHERE u.id = $1; 
     `, [id]);
 
@@ -114,7 +116,8 @@ async function getMiUsuario(id) {
                 estado: row.trueque_estado,
                 fecha: row.trueque_fecha,
                 usuario_solicitante_id: row.usuario_solicitante_id,
-                nombre_solicitante: row.nombre_solicitante
+                nombre_solicitante: row.nombre_solicitante,
+                nombre_destinatario: row.nombre_destinatario || 'Desconocido'
             });
         }
     }
@@ -127,29 +130,54 @@ async function getMiUsuario(id) {
     };
 }
 
+async function getUsuario(id){
+    const result = await dbClient.query("SELECT * FROM usuarios where id = $1",[id]);
+    return result;
+}
 
 
-async function createUsuario(nombre,mail,clave,ubicacion,reputacion){
-        const result = await dbClient.query("INSERT INTO usuarios (nombre,mail,clave,ubicacion,reputacion) VALUES ($1,$2,$3,$4,$5)",
-            [nombre,mail,clave,ubicacion,reputacion]);
-        return result.rowCount;
-}
-async function mailCheck(mail){
-    const existe = await dbClient.query("SELECT 1 FROM usuarios WHERE mail = $1", [mail]);
-    return existe.rowCount;
-}
-async function deleteUsuario (mail, clave) {
-    const result = await dbClient.query("DELETE FROM usuarios WHERE mail = $1 AND clave = $2",[mail,clave]);
+
+async function createUsuario(nombre, mail, clave, ubicacion, reputacion, imagenUrl) {
+    const result = await dbClient.query(
+        "INSERT INTO usuarios (nombre, mail, clave, ubicacion, reputacion, imagen) VALUES ($1, $2, $3, $4, $5, $6)",
+        [nombre, mail, clave, ubicacion, reputacion, imagenUrl]
+    );
     return result.rowCount;
 }
-async function updateUsuario(nombre,mail,clave,ubicacion,mail_actual){
-    const result = await dbClient.query("UPDATE usuarios SET nombre = $1, mail = $2, clave = $3, ubicacion = $4 WHERE mail = $5",[nombre,mail,clave,ubicacion,mail_actual])
-    return result.rowCount;
+
+async function mailCheck(mail, idActual) {
+    const result = await dbClient.query(
+        "SELECT 1 FROM usuarios WHERE mail = $1 AND id != $2",
+        [mail, idActual]
+    );
+    return result.rowCount; // Retorna 0 si el mail no está en uso por otro
 }
+
+async function deleteUsuario (id) {
+    const result = await dbClient.query("DELETE FROM usuarios WHERE id = $1", [id]);
+    return result;
+}
+async function updateUsuario(nombre, mail, clave, ubicacion, imagen, id) {
+    if (imagen) {
+        return dbClient.query(`
+            UPDATE usuarios
+            SET nombre = $1, mail = $2, clave = $3, ubicacion = $4, imagen = $5
+            WHERE id = $6
+        `, [nombre, mail, clave, ubicacion, imagen, id]);
+    } else {
+        return dbClient.query(`
+            UPDATE usuarios
+            SET nombre = $1, mail = $2, clave = $3, ubicacion = $4
+            WHERE id = $5
+        `, [nombre, mail, clave, ubicacion, id]);
+    }
+}
+
 
 module.exports = {
     getAllUsuarios,
     getMiUsuario,
+    getUsuario,
     createUsuario,
     mailCheck,
     deleteUsuario,

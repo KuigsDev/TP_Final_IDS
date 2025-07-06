@@ -1,6 +1,14 @@
-document.addEventListener("DOMContentLoaded", () => {
-    cargarDatosUsuario(6); // ID hardcodeado por ahora
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    if (id) {
+        cargarDatosUsuario(id);
+    } else {
+        alert("No se proporcionó un ID de usuario en la URL.");
+    }
 });
+
 
 function cargarDatosUsuario(id) {
     fetch(`http://localhost:3000/api/usuarios/${id}`)
@@ -8,7 +16,7 @@ function cargarDatosUsuario(id) {
         .then(data => {
                 mostrarUsuario(data.usuario);
                 mostrarProductos(data.productosPropios); // SOLO los productos del usuario
-                mostrarTrueques(data.trueques, data.productosTrueques,data.usuario.id   ); // trueques con productos (aunque no sean del usuario)
+                mostrarTrueques(data.trueques, data.productosTrueques,data.usuario.id); // trueques con productos (aunque no sean del usuario)
         })
         .catch(error => console.error("Error cargando datos del usuario:", error));
 }
@@ -21,14 +29,28 @@ function formatearFecha(fechaISO) {
 
 function mostrarUsuario(usuario) {
     document.querySelector('#usuario-info').innerHTML = `
-        <img class="usuario__imagen" src="${usuario.imagen}" alt="usuario">
+        <img class="usuario__imagen" src="http://localhost:3000${usuario.imagen}" alt="usuario">
         <div class="usuario__informacion">
             <p><span class="usuario__informacion--bold">Nombre:</span> ${usuario.nombre}</p>
             <p><span class="usuario__informacion--bold">Mail:</span> ${usuario.mail}</p>
             <p><span class="usuario__informacion--bold">Reputacion:</span> ${usuario.reputacion}</p>
             <p><span class="usuario__informacion--bold">Ubicacion:</span> ${usuario.ubicacion}</p>
+
+            <div class="usuario__acciones">
+                <button id="btn-editar-usuario" class="btn">Editar Usuario</button>
+                <button id="btn-borrar-usuario" class="btn btn--danger">Borrar Usuario</button>
+            </div>
         </div>
     `;
+
+    // Agregar event listeners a los botones
+    document.getElementById('btn-editar-usuario').addEventListener('click', () => {
+        editarUsuario(usuario.id);
+    });
+
+    document.getElementById('btn-borrar-usuario').addEventListener('click', () => {
+        borrarUsuario(usuario.id);
+    });
 }
 
 function mostrarProductos(productos) {
@@ -47,7 +69,7 @@ function mostrarProductos(productos) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 0 1 2.828 0l1.172 1.172a2 2 0 0 1 0 2.828L13 17H9v-4z"/>
                 </svg>
             </div>
-            <img class="producto__imagen" src="${producto.imagen}" alt="${producto.nombre}">
+            <img class="producto__imagen" src="http://localhost:3000${producto.imagen}" alt="${producto.nombre}">
             <h4 class="producto__nombre">${producto.nombre}</h4>
             <p class="producto__descripcion">${producto.descripcion}</p>
             <p class="producto__categoria"><strong>Categoría:</strong> ${producto.categoria}</p>
@@ -84,20 +106,85 @@ function mostrarTrueques(trueques, productos,usuarioActualId) {
             <h4 class="trueque__texto no-margin">Por:</h4>
             <p class="trueque__nombre">${nombreDeseado}</p>
             <p><strong>Solicitante:</strong> ${trueque.nombre_solicitante}</p>
+            <p><strong>Destinatario:</strong> ${trueque.nombre_destinatario}</p>
             <p><strong>Fecha propuesta:</strong> ${formatearFecha(trueque.fecha)}</p>
             <p><strong>Estado:</strong> ${trueque.estado}</p>
 
             <div class="trueque__acciones">
                 ${
-                    trueque.usuario_solicitante_id === usuarioActualId
-                    ? '' // Si soy solicitante, no muestro botones
-                    : `
-                    <button class="btn aceptar">Aceptar</button>
-                    <button class="btn rechazar">Rechazar</button>
-                    `
+                    trueque.usuario_solicitante_id !== usuarioActualId && trueque.estado === 'Pendiente'
+                    ? `
+                    <button class="btn aceptar" data-id="${trueque.id}">Aceptar</button>
+                    <button class="btn rechazar" data-id="${trueque.id}">Rechazar</button>
+                    ` // Si soy solicitante o el estado del trueque es distinto de pendiente, no muestro botones
+                    : ''
                 }
             </div>
         `;
         contenedor.appendChild(div);
     });
+    contenedor.querySelectorAll('.btn.aceptar').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            actualizarEstadoTrueque(id, 'aceptado');
+        });
+    });
+
+    contenedor.querySelectorAll('.btn.rechazar').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-id');
+            actualizarEstadoTrueque(id, 'rechazado');
+        });
+    });
 }
+
+function editarUsuario(id) {
+    // Redirigir a la página de edición con el ID del usuario
+    window.location.href = `editar_usuario.html?id=${id}`;
+}
+
+function borrarUsuario(id) {
+    if (confirm('¿Estás seguro que querés borrar tu usuario? Esta acción no se puede deshacer.')) {
+        fetch(`http://localhost:3000/api/usuarios/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Usuario eliminado con éxito.');
+                // Redirigir a la página principal o login después de borrar
+                window.location.href = 'index.html';
+            } else {
+                return response.json().then(data => { throw new Error(data.error); });
+            }
+        })
+        .catch(error => alert('Error: ' + error.message));
+    }
+}
+
+function actualizarEstadoTrueque(id, nuevoEstado) {
+    fetch(`http://localhost:3000/api/trueques/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: nuevoEstado })
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("No se pudo actualizar el estado del trueque");
+        return response.json();
+    })
+    .then(() => {
+        // Actualizar el estado directamente en el DOM
+        const truequeDiv = document.querySelector(`.btn[data-id="${id}"]`).closest('.trueque');
+        const estadoP = [...truequeDiv.querySelectorAll('p')].find(p => p.textContent.includes('Estado:'));
+        if (estadoP) estadoP.innerHTML = `<strong>Estado:</strong> ${nuevoEstado}`;
+
+        // Eliminar botones de acción
+        const acciones = truequeDiv.querySelector('.trueque__acciones');
+        if (acciones) acciones.innerHTML = '';
+    })
+    .catch(error => {
+        console.error("Error actualizando el estado:", error);
+        alert("Ocurrió un error al actualizar el estado del trueque.");
+    });
+}
+
+

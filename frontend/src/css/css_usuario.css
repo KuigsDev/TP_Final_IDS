@@ -200,4 +200,33 @@
 .producto__icono:hover {
     opacity: 1;
 }
+.usuario__acciones {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 0.4rem;
+    background-color: var(--color-principal, #007bff);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3; /* azul más oscuro */
+}
+
+.btn--danger {
+    background-color: #dc3545;
+}
+
+.btn--danger:hover {
+    background-color: #a71d2a;
+}
+
 

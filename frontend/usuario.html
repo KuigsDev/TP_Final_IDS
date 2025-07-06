@@ -7,11 +7,9 @@
     <link rel="preload" href="src/css/normalize.css" as="style">
     <link rel="preload" href="src/css/variables_globales.css" as="style">
     <link rel="preload" href="src/css/css_usuario.css" as="style">
-    <link rel="preload" href="src/css/css_usuario_fix.css" as="style">
     <link rel="stylesheet" href="src/css/normalize.css">
     <link rel="stylesheet" href="src/css/variables_globales.css">
     <link rel="stylesheet" href="src/css/css_usuario.css">
-    <link rel="stylesheet" href="src/css/css_usuario_fix.css">
 </head>
 <body>
     <header class="header">
@@ -21,50 +19,32 @@
     </header>
 
     <main class="main">
-        <div class="usuario contenedor">
-            <img class="usuario__imagen" src="src/img/usuario.jpg" alt="usuario">
-            <div class="usuario__informacion">
-                <p><span class="usuario__informacion--bold">Nombre:</span> Eric Rodriguez</p>
-                <p><span class="usuario__informacion--bold">Mail:</span> eric_rodriguez@gmail.com</p>
-                <p>
-                    <span class="usuario__informacion--bold">Intereses:</span> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo asperiores voluptates 
-                    laudantium est dolorum minima ipsa repellendus necessitatibus quis nemo quas recusandae, doloremque alias sed obcaecati,
-                    iure consequatur animi! Optio?
-                </p>
-                <!-- La reputacion podria dividirse por estrellas o por: Muy Mala-Mala-Normal-Buena-Muy Buena -->
-                <p><span class="usuario__informacion--bold">Reputacion:</span> 5 estrellas</p>
-                <p><span class="usuario__informacion--bold">Ubicacion:</span> Flores</p>
-            </div>
+        <div class="usuario contenedor" id="usuario-info">
         </div>
     </main>
 
-    <section class="mis-trueques">
-        <div class="contenedor">
-            <h3 class="centrar-texto no-margin mis-trueques__titulo">Mis Trueques</h3>
-            <div class="trueques">
-                <div class="trueque">
-                    <h4 class="trueque__texto no-margin">Cambio</h4>
-                    <img class="trueque__imagen" src="src/img/objetos/carbon.webp" alt="">
-                    <h4 class="trueque__texto no-margin">Por</h4>
-                    <img class="trueque__imagen" src="src/img/objetos/esmeralda.webp" alt="">
-                </div>
-                <div class="trueque">
-                    <h4 class="trueque__texto no-margin">Cambio</h4>
-                    <img class="trueque__imagen" src="src/img/objetos/carbon.webp" alt="">
-                    <h4 class="trueque__texto no-margin">Por</h4>
-                    <img class="trueque__imagen" src="src/img/objetos/esmeralda.webp" alt="">
-                </div>
-                <div class="trueque">
-                    <h4 class="trueque__texto no-margin">Cambio</h4>
-                    <img class="trueque__imagen" src="src/img/objetos/carbon.webp" alt="">
-                    <h4 class="trueque__texto no-margin">Por</h4>
-                    <img class="trueque__imagen" src="src/img/objetos/esmeralda.webp" alt="">
-                </div>
-            </div>
+    <!-- MIS PRODUCTOS -->
+<section class="mis-productos">
+    <div class="contenedor">
+        <h3 class="centrar-texto no-margin mis-productos__titulo">Mis Objetos</h3>
+        <div class="productos" id="mis-productos">
+            <!-- Acá se insertan dinámicamente los productos -->
         </div>
-    </section>
+    </div>
+</section>
+
+<!-- MIS TRUEQUES -->
+<section class="mis-trueques">
+    <div class="contenedor">
+        <h3 class="centrar-texto no-margin mis-trueques__titulo">Mis Trueques</h3>
+        <div class="trueques" id="mis-trueques">
+            <!-- Acá se insertan dinámicamente los trueques -->
+        </div>
+    </div>
+</section>
     <footer>
         <p class="centrar-texto">Todos los derechos reservados Trueque Libre 2025</p>
     </footer>
+<script src="src/scripts/usuario.js"></script>
 </body>
 </html>
