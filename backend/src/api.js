@@ -196,7 +196,7 @@ app.get("/api/usuarios/objetos/:id", async (req,res) =>{
     res.json(objetos)
 });
 
-//PUblicar objetos
+//Publicar objetos
 app.post("/api/objetos/:id",async(req,res) => {
     if(!req.body){
         return res.status(400).json({ error: "Faltan campos obligatorios" });

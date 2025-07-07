@@ -113,7 +113,9 @@ h2 ,h3{
     border-radius: 10px;
     text-align: center;
     transition: ease-in 0.2s;
+    cursor: pointer;
 }
+
 
 
 @media (min-width: 768px){

@@ -20,39 +20,58 @@
     
     <h3>Añadir objeto</h3>
     <h5 class="pasos">Seleccione la categoria de su objeto</h5>
-    <details class="categoria">
-    <summary>CATEGORIAS</summary>
-    <div class="opciones">
-        <div class="subcategorias">Opcion 1</div>
-        <div class="subcategorias">Opcion 2</div>
-        <div class="subcategorias">Opcion 3</div>
-        <div class="subcategorias">Opcion 4</div>
+<form>
+    <div class="categoria">
+        <label for="categoriaSelect"><strong>Categoría</strong></label>
+            <div class="opciones">
+                <select id="categoriaSelect" class="subcategorias" name="categoria">
+                    <option id="Deportes" value="Deportes">Deportes</option>
+                    <option id="Muebles" value="Muebles">Muebles</option>
+                    <option id="Electronica" value="Electronica">Electronica</option>
+                    <option id="Ropa" value="Ropa/Calzado">Ropa/Calzado</option>
+                    <option id="Electrodomesticos" value="Electrodomesticos">Electrodomesticos</option>
+                    <option id="Transporte" value="Transporte">Transporte</option>
+                    <option id="Instrumentos" value="Instrumentos">Instrumentos</option>
+                    <option id="Libros" value="Libros">Libros</option>
+                    <option id="Oficina" value="Oficina">Oficina</option>
+                    <option id="Cocina" value="Cocina">Cocina</option>
+                    <option id="Juguetes" value="Juguetes">Juguetes</option>
+                    <option id="Hogar" value="Hogar">Hogar</option>
+                    <option id="Otros" value="Otros">Otros</option>
+                </select>
+            </div>
     </div>
-    </details>
+</form>
+
 
     <h5 class="pasos">Ingrese el nombre de su objeto</h5>
-    <input class="datos_producto" type="text" placeholder="Nombre del producto">
+    <input id="nombre-producto" class="datos_producto" type="text" placeholder="Nombre del producto">
 
     <h5 class="pasos">Seleccione el estado de su objeto</h5>
-    <details class="categoria">
-    <summary>Estado del objeto</summary>
-    <div class="opciones">
-        <div class="subcategorias">Nuevo</div>
-        <div class="subcategorias">Usado</div>
-        <div class="subcategorias">Reacondicionado</div>
+<form>
+    <div class="categoria">
+        <label for="categoriaSelect"><strong>Estado del objeto</strong></label>
+            <div class="opciones">
+                <select id="estadoSelect" class="subcategorias" name="categoria">
+                    <option id="Nuevo" value="Nuevo">Nuevo</option>
+                    <option id="Usado" value="Usado">Usado</option>
+                    <option id="Reacondicionado" value="Reacondicionado">Reacondicionado</option>
+                </select>
+            </div>
     </div>
-    </details>
+</form>
 
     <h5 class="pasos">Agregue imágenes de su objeto</h5>
-    <input class="datos_producto" type="file" placeholder="Imagen producto">
+    <input id="imagen-producto" class="datos_producto" type="file" placeholder="Imagen producto">
 
     <h5 class="pasos">Ingrese una breve descripción</h5>
-    <input id="descripcion" class="datos_producto" type="text" placeholder="Descripción del objeto">
+    <input id="descripcion-producto" class="datos_producto" type="text" placeholder="Descripción del objeto">
 </body>
 </html>
 <div class="botones">
     <button onclick="cerrarVentana()" class="boton-cerrar">Cerrar</button>
     <button  class="boton-confirmar">Confirmar</button>
 </div>
+    <script src="/frontend/src/scripts/objeto.js"></script>
 </body>
 </html>
