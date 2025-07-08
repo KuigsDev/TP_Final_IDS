@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario - Trueque Libre</title>
+    <link rel="stylesheet" href="src/css/normalize.css">
+    <link rel="stylesheet" href="src/css/variables_globales.css">
+    <link rel="stylesheet" href="src/css/login.css">
+    <link rel="stylesheet" href="src/css/ofrecer_trueque.css">
+</head>
+<body>
+    <main class="contenedor login">
+        <h1>Ofrecer trueque</h1>
+        <form id="form-editar-usuario" class="formulario-login" enctype="multipart/form-data">
+            <div class="campo">
+                <label for="objetoSelect"><strong>Objeto deseado</strong></label>
+                <select name="objeto_deseado" class="formulario-login" id="form-editar-usuario">
+                    <option value="objeto1">Objeto 1</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="objetoSelect"><strong>Objeto ofrecido</strong></label>
+                <select name="objeto_ofrecido" class="formulario-login" id="form-editar-usuario">
+                    <option value="objeto1">Objeto 1</option>
+                </select>
+            </div>
+
+            <div class="acciones">
+                <button type="submit" class="btn">Ofrecer trueque</button>
+                <a href="index.html" class="btn btn-secundario">Cancelar</a>
+            </div>
+        </form>
+    </main>
+
+    <script src=""></script>
+</body>
+</html>
