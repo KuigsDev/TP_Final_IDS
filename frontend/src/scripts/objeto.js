@@ -74,7 +74,7 @@ function abrirVentana() {
 })
 }
 
-function cerrarVentana() {
+window.cerrarVentana = function() {
     document.getElementById('ventana').style.display = 'none';
     document.getElementById('contenido').innerHTML = '';
     document.body.style.overflow = '';
