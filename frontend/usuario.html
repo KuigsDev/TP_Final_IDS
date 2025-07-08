@@ -26,7 +26,17 @@
     <!-- MIS PRODUCTOS -->
 <section class="mis-productos">
     <div class="contenedor">
-        <h3 class="centrar-texto no-margin mis-productos__titulo">Mis Objetos</h3>
+        <div class="mis-productos__encabezado">
+            <h3 class="no-margin">Mis Objetos</h3>
+            <button id="abrir_ventana" class="btn btn--verde" onclick="abrirVentana()">Publicar Objeto</button>
+        </div>
+            <div id="ventana" class="ventana">
+            <div class="ventana-backdrop">
+                <div id="ventana-content" class="ventana-content">
+                <div id="contenido"></div>
+                </div>
+            </div>
+        </div>
         <div class="productos" id="mis-productos">
             <!-- Acá se insertan dinámicamente los productos -->
         </div>
@@ -45,6 +55,7 @@
     <footer>
         <p class="centrar-texto">Todos los derechos reservados Trueque Libre 2025</p>
     </footer>
-<script src="src/scripts/usuario.js"></script>
+<script type="module" src="src/scripts/usuario.js"></script>
+<script type="module" src="src/scripts/objeto.js"></script>
 </body>
 </html>

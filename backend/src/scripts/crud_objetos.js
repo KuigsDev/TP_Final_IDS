@@ -36,16 +36,32 @@ async function createObjeto(nombre, descripcion, categoria, estado, fecha_public
     return result.rowCount;
 }
 
-async function deleteObjeto(id) {
-    const result = await dbClient.query("DELETE FROM objetos WHERE id = $1", [id]);
-    return result.rowCount;
+async function deleteObjeto(id) {   
+    const result = await dbClient.query('DELETE FROM objetos WHERE id = $1', [id]);
+    return result;
 }
 
 async function updateObjeto(id, nombre, descripcion, categoria, estado, imagen) {
-    const result = await dbClient.query(
-        "UPDATE objetos SET nombre = $1, descripcion = $2, categoria = $3, estado = $4, imagen = $5 WHERE id = $6",
-        [nombre, descripcion, categoria, estado, imagen, id]
-    );
+    let query = "";
+    let params = [];
+
+    if (imagen) {
+        query = `
+            UPDATE objetos
+            SET nombre = $1, descripcion = $2, categoria = $3, estado = $4, imagen = $5
+            WHERE id = $6
+        `;
+        params = [nombre, descripcion, categoria, estado, imagen, id];
+    } else {
+        query = `
+            UPDATE objetos
+            SET nombre = $1, descripcion = $2, categoria = $3, estado = $4
+            WHERE id = $5
+        `;
+        params = [nombre, descripcion, categoria, estado, id];
+    }
+
+    const result = await dbClient.query(query, params);
     return result.rowCount;
 }
 

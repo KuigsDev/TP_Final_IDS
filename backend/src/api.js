@@ -8,8 +8,18 @@ const fs = require('fs');
 app.use('/img/usuarios', express.static(path.join(__dirname, 'img/usuarios')));
 app.use('/img/objetos', express.static(path.join(__dirname, 'img/objetos')));
 
+const createFolderIfNotExists = (folderPath) => {
+    if (!fs.existsSync(folderPath)) {
+        fs.mkdirSync(folderPath, { recursive: true });
+    }
+};
+
 // Asegúrate de que la carpeta exista
 const uploadPath = path.join(__dirname, 'img/usuarios');
+const uploadObjetosPath = path.join(__dirname, 'img/objetos');
+
+createFolderIfNotExists(uploadPath);
+createFolderIfNotExists(uploadObjetosPath);
 
 if (!fs.existsSync(uploadPath)) {
     fs.mkdirSync(uploadPath, { recursive: true });
@@ -36,6 +46,30 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage });
+
+const storageObjetos = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, uploadObjetosPath);
+    },
+    filename: function (req, file, cb) {
+        // Leer archivos existentes en la carpeta de objetos
+        fs.readdir(uploadObjetosPath, (err, files) => {
+            if (err) return cb(err);
+
+            // Filtrar archivos que sean imágenes
+            const imageFiles = files.filter(f => /\.(jpg|jpeg|png|gif)$/i.test(f));
+            const newId = imageFiles.length + 1;
+
+            const ext = path.extname(file.originalname); // extensión del archivo original
+            const filename = `${newId}${ext}`; // nombre final: 1.jpg, 2.png, etc.
+
+            cb(null, filename);
+        });
+    }
+});
+
+
+const uploadObjeto = multer({ storage: storageObjetos });
 
 const {
     getAllUsuarios,
@@ -197,22 +231,24 @@ app.get("/api/usuarios/objetos/:id", async (req,res) =>{
 });
 
 //Publicar objetos
-app.post("/api/objetos/:id",async(req,res) => {
+app.post("/api/objetos/:id",uploadObjeto.single('imagen'),async(req,res) => {
     if(!req.body){
         return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
 
-    else if ( !req.body.nombre || !req.body.descripcion || !req.body.categoria || !req.body.imagen || !req.body.estado || !req.body.fecha_publicacion ) {
+
+    else if ( !req.body.nombre || !req.body.descripcion || !req.body.categoria || !req.file || !req.body.estado || !req.body.fecha_publicacion ) {
             return res.status(400).json({ error: "Faltan campos obligatorios" });
         }
     else{
+        const imagen = `/img/objetos/${req.file.filename}`;
         const objetos = await createObjeto(
             req.body.nombre,
             req.body.descripcion,
             req.body.categoria,
             req.body.estado,
             req.body.fecha_publicacion,
-            req.body.imagen,
+            imagen,
             req.params.id
         );
         res.status(201).json({ message: "Objeto publicado", filasAfectadas: objetos });
@@ -220,35 +256,50 @@ app.post("/api/objetos/:id",async(req,res) => {
 });
 
 //Editar objeto publicado
-app.put("/api/objetos/editar/:id", async (req,res) =>{
+app.put("/api/objetos/editar/:id",uploadObjeto.single('imagen'), async (req,res) =>{
     if (!req.body){
-        return res.status(400).json({ error: "No realizo cambio en el producro"});
+        return res.status(400).json({ error: "No realizo cambio en el producto"});
     }
-    else{
-        const objetos = await updateObjeto(
+    // Los datos quedan en req.body y el archivo en req.file (si subieron)
+    const { nombre, descripcion, categoria, estado } = req.body;
+    let imagen = null;
+    if (req.file) {
+        // Aquí podés usar req.file.path o renombrar / mover la imagen
+        imagen = `/img/objetos/${req.file.filename}`; // O la ruta que guardes
+    }
+
+    try {
+        const filasAfectadas = await updateObjeto(
             req.params.id,
-            req.body.nombre,
-            req.body.descripcion,
-            req.body.categoria,
-            req.body.estado,
-            req.body.imagen
+            nombre,
+            descripcion,
+            categoria,
+            estado,
+            imagen
         );
-        res.status(201).json({ message: "Objeto editado", filasAfectadas: objetos})
+
+        res.status(201).json({ message: "Objeto editado", filasAfectadas });
+    } catch (error) {
+        res.status(500).json({ error: "Error al actualizar el objeto" });
     }
 });
 
 //Borrar objeto 
 
-app.delete("/api/objetos/borrar/:id", async (req,res)=>{
+app.delete('/api/objetos/:id', async (req, res) => {
+    const id = req.params.id;
 
-    if (!req.params.id){
-        return res.status(400).json({ error: "No se selecciono un objeto para borrar"});
+    try {
+        const result = await deleteObjeto(id);
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: 'Producto no encontrado' });
+        }
+        res.status(200).json({ message: 'Producto eliminado' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al eliminar producto' });
     }
-    else {
-        const objetoBorrado = deleteObjeto(req.params.id);
-        res.status(201).json({ message: "Objeto borrado", filasAfectadas: objetoBorrado});
-    };
-})
+});
 
 const {    
     updateEstado,

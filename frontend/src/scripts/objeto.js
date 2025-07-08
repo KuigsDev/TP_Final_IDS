@@ -1,12 +1,19 @@
+window.abrirVentana = abrirVentana;
 function abrirVentana() {
     fetch('ventana_agregar.html')
     .then(response => response.text())
     .then(html => {
     document.getElementById('contenido').innerHTML = html;
     document.getElementById('ventana').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
 
     
-    const usuarioId = 6; //Id  del usuario Hardcodeado por el momento
+    const params = new URLSearchParams(window.location.search);
+    const usuarioId = params.get("id");
+                if (!usuarioId) {
+                alert("ID de usuario no encontrado en la URL.");
+                return;
+            }
     const botonConfirmar = document.querySelector(".boton-confirmar")
     const Inputcategoria = document.getElementById("categoriaSelect")
     const Inputnombre = document.getElementById("nombre-producto")
@@ -15,15 +22,16 @@ function abrirVentana() {
     const Inputdescripcion = document.getElementById("descripcion-producto")
 
     botonConfirmar.addEventListener("click", async (e)=>{
+        e.preventDefault();
         const nombre = Inputnombre.value.trim(); // Funcion trim quita espacios en blancos en los costados
         const descripcion = Inputdescripcion.value.trim(); 
         const categoria = Inputcategoria.value;
         const estado = Inputestado.value;
         const fecha_publicacion = new Date().toISOString().split("T")[0];
         // Para el tema de añadir imagenes lo dejo hardcodeado por el momento
-        const imagen = "#";
+        const imagenFile = Inputimagen.files[0];
 
-        if (!nombre || !descripcion || !categoria || !estado || !imagen){
+        if (!nombre || !descripcion || !categoria || !estado || !imagenFile){
             alert("Por favor complete todo los campos");
             return;
         }
@@ -35,20 +43,19 @@ function abrirVentana() {
             alert("La descripcion es muy larga")
             return;
         }
-        // Construyo el json del objeto nuevo
-        const nuevoObjeto = {
-            nombre,
-            descripcion,
-            categoria,
-            estado,
-            fecha_publicacion,
-            imagen
-        };
+        // 🧾 FormData para enviar datos + archivo
+        const formData = new FormData();
+        formData.append("nombre", nombre);
+        formData.append("descripcion", descripcion);
+        formData.append("categoria", categoria);
+        formData.append("estado", estado);
+        formData.append("fecha_publicacion", fecha_publicacion);
+        formData.append("imagen", imagenFile); // ← esto envía el archivo real
         try{
             const res = await fetch (`http://localhost:3000/api/objetos/${usuarioId}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nuevoObjeto)});
+        body: formData
+        });
 
         const data = await res.json();  //Respuesta de la api al intentar hacer el POST
         
@@ -57,6 +64,7 @@ function abrirVentana() {
         }
         alert("Objeto publicado correctamente");
         cerrarVentana()
+        location.reload();
         } 
         catch(err){ //Capturamos el error que entedemos viene del BACKEND
             console.error("Ocurrio un error al momento de publicar el objeto",err);
@@ -69,16 +77,18 @@ function abrirVentana() {
 function cerrarVentana() {
     document.getElementById('ventana').style.display = 'none';
     document.getElementById('contenido').innerHTML = '';
+    document.body.style.overflow = '';
     }
 
-function abrirVentanaEditar() {
-    fetch('ventana_agregar.html')
+export function abrirVentanaEditar(id) {
+    fetch('ventana_editar.html')
     .then(response => response.text())
     .then(async html => {
     document.getElementById('contenido').innerHTML = html;
     document.getElementById('ventana').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
 
-    const IdObjeto = 24; // ID del objeto a editar (hardcodeado por ahora)
+    const IdObjeto = id; // ID del objeto a editar (hardcodeado por ahora)
     const Inputcategoria = document.getElementById("categoriaSelect");
     const Inputnombre = document.getElementById("nombre-producto");
     const Inputestado = document.getElementById("estadoSelect");
@@ -104,7 +114,7 @@ function abrirVentanaEditar() {
     } catch (err) {
         console.error("Error al obtener objeto para editar:", err);
         alert("No se pudo cargar el objeto para editar.");
-        cerrarVentana();
+        cerrarVentanaEditar();
         return;
     }
 
@@ -113,10 +123,10 @@ function abrirVentanaEditar() {
         const descripcion = Inputdescripcion.value.trim();
         const categoria = Inputcategoria.value;
         const estado = Inputestado.value;
-        const imagen = "#"; // Hardcodeado por ahora
+        const archivoImagen = Inputimagen.files[0];
         const fecha_publicacion = new Date().toISOString().split("T")[0];
 
-        if (!nombre || !descripcion || !categoria || !estado || !imagen) {
+        if (!nombre || !descripcion || !categoria || !estado) {
             alert("Por favor complete todos los campos");
             return;
         } else if (nombre.length > 55) {
@@ -127,20 +137,21 @@ function abrirVentanaEditar() {
             return;
         }
 
-        const objetoEditado = {
-            nombre,
-            descripcion,
-            categoria,
-            estado,
-            fecha_publicacion,
-            imagen
-        };
+        // Creamos un FormData para enviar datos junto con la imagen
+        const formData = new FormData();
+        formData.append("nombre", nombre);
+        formData.append("descripcion", descripcion);
+        formData.append("categoria", categoria);
+        formData.append("estado", estado);
+        formData.append("fecha_publicacion", fecha_publicacion);
+        if (archivoImagen) {
+            formData.append("imagen", archivoImagen);
+        }
 
         try {
             const res = await fetch(`http://localhost:3000/api/objetos/editar/${IdObjeto}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(objetoEditado)
+                body: formData
             });
 
             const data = await res.json();
@@ -150,7 +161,8 @@ function abrirVentanaEditar() {
             }
 
             alert("Objeto actualizado correctamente");
-            cerrarVentana();
+            cerrarVentanaEditar();
+            location.reload();
         } catch (err) {
             console.error("Error al actualizar el objeto:", err);
             alert("No se pudo actualizar el objeto");
@@ -160,11 +172,11 @@ function abrirVentanaEditar() {
 }
 
 
-function cerrarVentanaEditar() {
+window.cerrarVentanaEditar = function() {
     document.getElementById('ventana').style.display = 'none';
     document.getElementById('contenido').innerHTML = '';
-    }
-
+    document.body.style.overflow = '';
+}
 
 
 

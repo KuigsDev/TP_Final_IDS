@@ -229,4 +229,33 @@
     background-color: #a71d2a;
 }
 
+.mis-productos__encabezado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 1rem;
+    padding-top: 2rem;
+}
+
+.mis-productos__titulo {
+    font-weight: bold;
+    margin: 0;
+    font-size: 3.2rem;
+}
+
+#abrir_ventana {
+    position: absolute;
+    right: 2rem;
+}
+
+.btn--verde {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn--verde:hover {
+    background-color: #218838;
+}
+
 

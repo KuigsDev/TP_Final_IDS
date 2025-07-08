@@ -1,3 +1,4 @@
+import { abrirVentanaEditar } from './objeto.js';
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
@@ -77,6 +78,40 @@ function mostrarProductos(productos) {
             <p class="producto__fecha"><strong>Publicado el:</strong> ${formatearFecha(producto.fecha_publicacion)}</p>
         `;
         contenedor.appendChild(div);
+        // Buscar el SVG editar dentro de este div y asignar el evento
+        const btnEditar = div.querySelector('svg.editar');
+        if (btnEditar) {
+            
+            btnEditar.addEventListener('click', () => {
+                abrirVentanaEditar(producto.id);  // le podés pasar el id si querés
+            });
+        }
+
+        const btnEliminar = div.querySelector('svg.eliminar');
+        if (btnEliminar) {
+            btnEliminar.addEventListener('click', async () => {
+                const confirmar = confirm(`¿Querés eliminar el producto "${producto.nombre}"?`);
+                if (!confirmar) return;
+
+                try {
+                    const res = await fetch(`http://localhost:3000/api/objetos/${producto.id}`, {
+                        method: 'DELETE',
+                    });
+
+                    if (!res.ok) {
+                        const data = await res.json();
+                        throw new Error(data.error || 'Error al eliminar el producto');
+                    }
+
+                    alert('Producto eliminado correctamente');
+                    // Remover producto del DOM o recargar lista
+                    div.remove();
+                } catch (err) {
+                    console.error('Error al eliminar producto:', err);
+                    alert('No se pudo eliminar el producto');
+                }
+            });
+        }
     });
 }
 
@@ -103,9 +138,9 @@ function mostrarTrueques(trueques, productos,usuarioActualId) {
         div.innerHTML = `
             <h4 class="trueque__texto no-margin">Cambio:</h4>
             <p class="trueque__nombre">${nombreOfrecido}</p>
+            <p><strong>Solicitante:</strong> ${trueque.nombre_solicitante}</p>
             <h4 class="trueque__texto no-margin">Por:</h4>
             <p class="trueque__nombre">${nombreDeseado}</p>
-            <p><strong>Solicitante:</strong> ${trueque.nombre_solicitante}</p>
             <p><strong>Destinatario:</strong> ${trueque.nombre_destinatario}</p>
             <p><strong>Fecha propuesta:</strong> ${formatearFecha(trueque.fecha)}</p>
             <p><strong>Estado:</strong> ${trueque.estado}</p>
