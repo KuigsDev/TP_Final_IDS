@@ -32,8 +32,14 @@ async function getWhereNotUsuario(usuarioId) {
 }
 
 async function getObjetosRecientes() {
-    const result = await dbClient.query("SELECT * FROM objetos ORDER BY id DESC LIMIT 10");
-    return result.rows;
+    const result = await dbClient.query(`
+            SELECT objetos.*, usuarios.nombre AS duenio, usuarios.id AS usuario_id
+            FROM objetos
+            JOIN usuarios ON objetos.usuario_id = usuarios.id
+            ORDER BY objetos.fecha_publicacion DESC
+            LIMIT 9
+        `);
+    return result;
 }
 
 async function createObjeto(nombre, descripcion, categoria, estado, fecha_publicacion, imagen, usuario_id) {

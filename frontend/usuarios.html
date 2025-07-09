@@ -1,17 +1,15 @@
-<!-- frontend/index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
 	<meta charset="UTF-8">
-	<title>Trueque Libre</title>
+	<title>Trueque Libre - Usuarios</title>
 	<link rel="preload" href="src/css/normalize.css" as="style">
 	<link rel="preload" href="src/css/variables_globales.css" as="style">
 	<link rel="preload" href="src/css/css_usuario.css" as="style">
-	<link rel="preload" href="src/css/css_index.css" as="style">
 	<link rel="stylesheet" href="src/css/normalize.css">
 	<link rel="stylesheet" href="src/css/variables_globales.css">
 	<link rel="stylesheet" href="src/css/css_usuario.css">
-	<link rel="stylesheet" href="src/css/css_index.css">
+	<link rel="stylesheet" href="src/css/css_usuarios.css">
 </head>
 <body>
 	<header class="header">
@@ -20,17 +18,17 @@
             <a class="navegacion__link" href="usuarios.html">Usuarios</a>
         </nav>
     </header>
-	<section class="mis-productos">
+	<section class="usuarios">
 		<div class="contenedor">
-			<h1 class="no-margin centrar-texto">Bienvenido a Trueque Libre!</h1>
-			<div class="mis-productos__encabezado">
-				<h3 class="no-margin">Estos son nuestros objetos mas recientes...</h3>
-			</div>
-			<div class="productos" id="mis-productos">
-				<!-- Acá se insertan dinámicamente los productos -->
+            <div class="mis-usuarios__encabezado">
+                <h2 class="no-margin">Usuarios registrados</h2>
+                <button id="registrar_usuario" class="btn btn--verde">Registrar Usuario</button>
+            </div>
+			<div class="usuarios__grid" id="listado-usuarios">
+				<!-- Aquí se insertan dinámicamente los usuarios -->
 			</div>
 		</div>
 	</section>
-	<script src="src/scripts/index.js"></script>
+	<script src="src/scripts/usuarios.js"></script>
 </body>
 </html>

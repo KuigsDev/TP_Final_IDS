@@ -121,8 +121,41 @@ app.get("/api/usuario/:id", async (req, res) => {
     }
 });
 
+app.post("/api/usuarios", upload.single("imagen"), async (req, res) => {
+    const { nombre, mail, clave, ubicacion } = req.body;
 
-//insert
+    if (!nombre || !mail || !clave || !ubicacion) {
+        return res.status(400).json({ error: "Faltan campos obligatorios" });
+    }
+
+    try {
+        const yaExiste = await mailCheck(mail);
+        if (yaExiste > 0) {
+            return res.status(409).json({ error: "El mail ya está registrado" });
+        }
+
+        let imagen = null;
+        if (req.file) {
+            imagen = `/img/usuarios/${req.file.filename}`;
+        }
+
+        const reputacion = 3;
+
+        const result = await createUsuario(nombre, mail, clave, ubicacion, reputacion, imagen);
+        if (result.rowCount > 0) {
+            return res.status(201).json({ message: "Usuario registrado correctamente" });
+        } else {
+            return res.status(500).json({ error: "No se pudo registrar el usuario" });
+        }
+    } catch (error) {
+        console.error("Error en POST /api/usuarios:", error);
+        return res.status(500).json({ error: "Error del servidor" });
+    }
+});
+
+
+
+//update
 app.put("/api/usuarios/:id", upload.single('imagen'), async (req, res) => {
     const id = req.params.id;
     const { nombre, mail, clave, ubicacion } = req.body;
@@ -173,28 +206,6 @@ app.delete("/api/usuarios/:id", async (req, res) => {
     }
 });
 
-//update
-app.put("/api/usuarios/:id", async (req, res) => {
-    const id = req.params.id;
-    const { nombre, mail, clave, ubicacion, imagen } = req.body;
-
-    if (!nombre || !mail || !clave || !ubicacion) {
-        return res.status(400).json({ error: "Faltan campos obligatorios" });
-    }
-
-    try {
-        const result = await updateUsuario(nombre,mail,clave,ubicacion,imagen,id)
-
-        if (result.rowCount === 0) {
-            return res.status(404).json({ error: "Usuario no encontrado" });
-        }
-
-        res.json({ message: "Usuario actualizado correctamente" });
-    } catch (error) {
-        console.error("Error actualizando usuario:", error);
-        res.status(500).json({ error: "Error al actualizar el usuario" });
-    }
-});
 
 
 app.listen(PORT, () => {
@@ -217,6 +228,17 @@ const {
 app.get("/api/objetos", async(req,res) =>{
     const objetos = await getAllObjetos();
     res.json(objetos);
+});
+
+//Últimos 9 objetos con nombre del dueño
+app.get("/api/objetos/recientes", async (req, res) => {
+    try {
+        const result = await getObjetosRecientes();
+        res.json(result.rows);
+    } catch (err) {
+        console.error("Error al obtener objetos recientes:", err);
+        res.status(500).json({ error: "Error al obtener objetos recientes" });
+    }
 });
 
 //Obtener un objeto
@@ -302,7 +324,6 @@ app.put("/api/objetos/editar/:id",uploadObjeto.single('imagen'), async (req,res)
 });
 
 //Borrar objeto 
-
 app.delete('/api/objetos/:id', async (req, res) => {
     const id = req.params.id;
 
@@ -317,6 +338,9 @@ app.delete('/api/objetos/:id', async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar producto' });
     }
 });
+
+
+
 
 const {    
     updateEstado,

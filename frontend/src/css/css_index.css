@@ -1,0 +1,12 @@
+.producto__duenio a {
+  color: #007BFF;          /* color azul para el link */
+  text-decoration: none;   /* quitar el subrayado */
+  font-weight: 600;        /* hacerlo un poco más grueso */
+  transition: color 0.3s ease;
+}
+
+.producto__duenio a:hover {
+  color: #0056b3;          /* color más oscuro cuando pasas el mouse */
+  text-decoration: underline; /* subrayado al pasar el mouse */
+  cursor: pointer;
+}

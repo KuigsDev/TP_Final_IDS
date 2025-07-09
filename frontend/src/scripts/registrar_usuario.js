@@ -42,3 +42,6 @@ document.getElementById('registro-form').addEventListener('submit', async functi
         submitButton.textContent = 'Registrarme';
     }
 });
+document.getElementById('btn-cerrar').addEventListener('click', () => {
+        window.location.href = 'usuarios.html';
+    });

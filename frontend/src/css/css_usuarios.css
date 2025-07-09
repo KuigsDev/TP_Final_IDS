@@ -1,0 +1,96 @@
+.usuarios__grid {
+    display: grid;
+    gap: 2rem;
+    padding: 2rem; /* <-- acá agregué padding para despegar del borde */
+    grid-template-columns: repeat(3, 1fr);
+    border-bottom: 3px solid var(--lineas_separadores);
+}
+
+.usuario__card {
+    background-color: var(--lineas_separadores);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.usuario__card:hover {
+    transform: translateY(-5px);
+}
+
+.usuario__imagen {
+    width: 100%;
+    max-width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.usuario__nombre {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0.5rem 0;
+}
+
+.usuario__info {
+    font-size: 1.2rem;
+    margin: 0.2rem 0;
+}
+
+.usuario__perfil-link {
+    margin-top: 1rem;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--botones_principales);
+    color: white;
+    border-radius: 0.4rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.usuario__perfil-link:hover {
+    background-color: var(--botones_secundarios);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .usuarios__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .usuarios__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.mis-usuarios__encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* centra todo el contenido */
+    position: relative; /* para posicionar el botón */
+    margin-bottom: 1rem;
+    padding-top: 2rem;
+}
+
+/* Título centrado en el medio */
+.mis-usuarios__encabezado h2 {
+    margin: 0;
+    text-align: center;
+}
+
+/* Botón posicionado a la derecha absoluto para no afectar el centrado del título */
+#registrar_usuario {
+    position: absolute;
+    right: 2rem; /* separa del borde derecho */
+    flex-shrink: 0;
+}
+
+

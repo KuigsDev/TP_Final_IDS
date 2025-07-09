@@ -142,14 +142,23 @@ async function createUsuario(nombre, mail, clave, ubicacion, reputacion, imagenU
         "INSERT INTO usuarios (nombre, mail, clave, ubicacion, reputacion, imagen) VALUES ($1, $2, $3, $4, $5, $6)",
         [nombre, mail, clave, ubicacion, reputacion, imagenUrl]
     );
-    return result.rowCount;
+    return result;
 }
 
-async function mailCheck(mail, idActual) {
-    const result = await dbClient.query(
-        "SELECT 1 FROM usuarios WHERE mail = $1 AND id != $2",
-        [mail, idActual]
-    );
+async function mailCheck(mail, idActual = null) {
+    let result;
+    if(idActual){
+        result = await dbClient.query(
+            "SELECT 1 FROM usuarios WHERE mail = $1 AND id != $2",
+            [mail, idActual]
+        );
+    }
+    else{
+        result = await dbClient.query(
+        "SELECT 1 FROM usuarios WHERE mail = $1",
+        [mail]
+        );
+    }
     return result.rowCount; // Retorna 0 si el mail no está en uso por otro
 }
 

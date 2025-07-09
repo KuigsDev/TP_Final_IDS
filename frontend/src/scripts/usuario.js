@@ -34,7 +34,7 @@ function mostrarUsuario(usuario) {
         <div class="usuario__informacion">
             <p><span class="usuario__informacion--bold">Nombre:</span> ${usuario.nombre}</p>
             <p><span class="usuario__informacion--bold">Mail:</span> ${usuario.mail}</p>
-            <p><span class="usuario__informacion--bold">Reputacion:</span> ${usuario.reputacion}</p>
+            <p><span class="usuario__informacion--bold">Reputacion:</span> ${textoReputacion(usuario.reputacion)}</p>
             <p><span class="usuario__informacion--bold">Ubicacion:</span> ${usuario.ubicacion}</p>
 
             <div class="usuario__acciones">
@@ -277,8 +277,16 @@ document.getElementById('btn-crear-trueque').addEventListener('click', () => {
 function crearTrueque(id){
     window.location.href = `crear_trueque.html?id=${id}`;
 }
-function editarTrueque(id) {
-    window.location.href = `editar_trueque.html?id=${id}`;
-}
+
+function textoReputacion(valor) {
+        switch(valor) {
+            case 1: return "Muy mala";
+            case 2: return "Mala";
+            case 3: return "Normal";
+            case 4: return "Buena";
+            case 5: return "Muy buena";
+            default: return "Desconocida";
+        }
+    }
 
 

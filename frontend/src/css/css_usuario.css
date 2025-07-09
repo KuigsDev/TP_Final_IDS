@@ -30,10 +30,22 @@
     font-size: 4rem;
     color: var(--texto);
     font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+.navegacion__titulo:hover {
+    color: var(--botones_principales);
 }
 .navegacion{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 2rem;
     background-color: var(--lineas_separadores);
+}
+.navegacion__titulo {
+    margin: 0;
 }
 .usuario__informacion--bold{
     font-weight: bold;
@@ -301,4 +313,15 @@
     opacity: 1;
 }
 
+.navegacion__link {
+    margin-left: 2rem;
+    font-size: 2rem;
+    color: var(--texto);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navegacion__link:hover {
+    color: var(--botones_principales);
+}
 
