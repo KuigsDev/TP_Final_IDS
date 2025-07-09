@@ -21,7 +21,7 @@ create table trueques(
     id serial primary key,
     objeto_ofrecido_id INT NOT NULL REFERENCES objetos(id) ON DELETE CASCADE,
     objeto_deseado_id INT NOT NULL REFERENCES objetos(id) ON DELETE CASCADE,
-    estado varchar(50) not null,
+    estado varchar(50) not null default 'Pendiente',
     fecha date not null,
     usuario_solicitante_id INT NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE
 );

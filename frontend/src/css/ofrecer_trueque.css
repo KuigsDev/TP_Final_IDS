@@ -6,3 +6,11 @@
     background-color: #fff;
     color: var(--texto);
 }
+input[type="date"] {
+    padding: 1rem;
+    border: 1px solid var(--lineas_separadores);
+    border-radius: 0.5rem;
+    font-size: 1.6rem;
+    color: var(--texto);
+    background-color: #fff;
+}

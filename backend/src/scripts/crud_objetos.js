@@ -22,6 +22,14 @@ async function getFromUsuario(usuarioId) {
     const result = await dbClient.query("SELECT * FROM objetos WHERE usuario_id = $1", [usuarioId]);
     return result.rows;
 }
+async function getWhereNotUsuario(usuarioId) {
+    const result = await dbClient.query(
+            `SELECT objetos.id, objetos.nombre, usuarios.nombre AS propietario
+            FROM objetos
+            JOIN usuarios ON objetos.usuario_id = usuarios.id
+            WHERE objetos.usuario_id != $1`, [usuarioId]);
+    return result;
+}
 
 async function getObjetosRecientes() {
     const result = await dbClient.query("SELECT * FROM objetos ORDER BY id DESC LIMIT 10");
@@ -74,5 +82,6 @@ module.exports = {
     getObjetosRecientes,
     createObjeto,
     deleteObjeto,
-    updateObjeto
+    updateObjeto,
+    getWhereNotUsuario
 };

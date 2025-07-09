@@ -204,6 +204,7 @@ app.listen(PORT, () => {
 const {    
     getAllObjetos,
     getOneObjeto,
+    getWhereNotUsuario,
     getFromUsuario,
     getObjetosRecientes,
     createObjeto,
@@ -226,8 +227,24 @@ app.get("/api/objetos/:id", async(req,res)=>{
 
 //Obtener objetos de usuario
 app.get("/api/usuarios/objetos/:id", async (req,res) =>{
-    const objetos = await getFromUsuario(req.params.id)
-    res.json(objetos)
+    try {
+        const objetos = await getFromUsuario(req.params.id);
+        res.json(objetos);
+    } catch (error) {
+        console.error("Error al obtener objetos:", error);
+        res.status(500).json({ error: "Error al obtener objetos" });
+    }
+});
+
+app.get("/api/objetos/otros/:id", async (req, res) => {
+    const solicitanteId = req.params.id;
+    try {
+        const result = await getWhereNotUsuario(solicitanteId);
+        res.json(result.rows);
+    } catch (error) {
+        console.error("Error al obtener objetos de otros usuarios:", error);
+        res.status(500).json({ error: "Error al obtener objetos deseados" });
+    }
 });
 
 //Publicar objetos
@@ -303,6 +320,10 @@ app.delete('/api/objetos/:id', async (req, res) => {
 
 const {    
     updateEstado,
+    createTrueque,
+    getTrueque,
+    updateTrueque,
+    deleteTrueque,
     } = require("./scripts/crud_trueques");
 
 app.put("/api/trueques/:id", async (req, res) => {
@@ -321,6 +342,91 @@ app.put("/api/trueques/:id", async (req, res) => {
         res.status(404).json({ error: "Trueque no encontrado" });
     }
 });
+
+app.post("/api/trueques", async (req, res) => {
+    const {
+        objeto_ofrecido_id,
+        objeto_deseado_id,
+        fecha,
+        usuario_solicitante_id
+    } = req.body;
+
+    if (!objeto_ofrecido_id || !objeto_deseado_id || !fecha || !usuario_solicitante_id) {
+        return res.status(400).json({ error: "Todos los campos son obligatorios." });
+    }
+
+    if (isNaN(objeto_ofrecido_id) || isNaN(objeto_deseado_id) || isNaN(usuario_solicitante_id)) {
+        return res.status(400).json({ error: "Los IDs deben ser números válidos." });
+    }
+
+    try{
+        const result = await createTrueque(objeto_ofrecido_id,objeto_deseado_id,fecha,usuario_solicitante_id);
+        res.status(201).json({ mensaje: "Trueque creado con éxito" });
+    } catch (error) {
+        console.error("Error al crear trueque:", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
+});
+
+app.put("/api/trueques/editar/:id", async (req, res) => {
+    const truequeId = req.params.id;
+    const { objeto_ofrecido_id, objeto_deseado_id, fecha, usuario_solicitante_id } = req.body;
+
+    if (!objeto_ofrecido_id || !objeto_deseado_id || !fecha || !usuario_solicitante_id) {
+        return res.status(400).json({ error: "Todos los campos son obligatorios." });
+    }
+
+    try {
+        const result = await getTrueque(truequeId);
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: "Trueque no encontrado" });
+        }
+
+        const trueque = result.rows[0];
+
+        if (trueque.estado !== "Pendiente") {
+            return res.status(400).json({ error: "Solo se pueden editar trueques en estado Pendiente" });
+        }
+
+        if (parseInt(trueque.usuario_solicitante_id) !== parseInt(usuario_solicitante_id)) {
+            return res.status(403).json({ error: "No estás autorizado a editar este trueque" });
+        }
+
+        const update = await updateTrueque(objeto_ofrecido_id, objeto_deseado_id, fecha, truequeId);
+
+        res.json({ mensaje: "Trueque actualizado"});
+
+    } catch (err) {
+        console.error("Error actualizando trueque:", err);
+        res.status(500).json({ error: "Error del servidor" });
+    }
+});
+
+app.get("/api/trueques/:id", async (req, res) => {
+    const result = await getTrueque(req.params.id);
+    if (result.rowCount === 0) {
+        return res.status(404).json({ error: "Trueque no encontrado" });
+    }
+    res.json(result.rows[0]);
+});
+
+app.delete("/api/trueques/:id", async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await deleteTrueque(id);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "Trueque no encontrado" });
+        }
+
+        res.json({ mensaje: "Trueque eliminado con éxito" });
+    } catch (error) {
+        console.error("Error al eliminar trueque:", error);
+        res.status(500).json({ error: "Error al eliminar trueque" });
+    }
+});
+
+
 
 
 

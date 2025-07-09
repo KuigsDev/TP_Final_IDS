@@ -136,6 +136,20 @@ function mostrarTrueques(trueques, productos,usuarioActualId) {
         const div = document.createElement('div');
         div.classList.add('trueque');
         div.innerHTML = `
+            ${
+                    trueque.usuario_solicitante_id === usuarioActualId
+                    ? `
+                    <div class="trueque__iconos">
+                        <svg class="trueque__icono eliminar" data-id="${trueque.id}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 7h12M9 7v10m6-10v10M4 7h16M10 3h4a1 1 0 0 1 1 1v1H9V4a1 1 0 0 1 1-1zM5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12"/>
+                        </svg>
+                        <svg class="trueque__icono editar" data-id="${trueque.id}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 13l6.536-6.536a2 2 0 0 1 2.828 0l1.172 1.172a2 2 0 0 1 0 2.828L13 17H9v-4z"/>
+                        </svg>
+                    </div>
+                    `
+                    : ''
+                }
             <h4 class="trueque__texto no-margin">Cambio:</h4>
             <p class="trueque__nombre">${nombreOfrecido}</p>
             <p><strong>Solicitante:</strong> ${trueque.nombre_solicitante}</p>
@@ -151,7 +165,7 @@ function mostrarTrueques(trueques, productos,usuarioActualId) {
                     ? `
                     <button class="btn aceptar" data-id="${trueque.id}">Aceptar</button>
                     <button class="btn rechazar" data-id="${trueque.id}">Rechazar</button>
-                    ` // Si soy solicitante o el estado del trueque es distinto de pendiente, no muestro botones
+                    `
                     : ''
                 }
             </div>
@@ -171,6 +185,38 @@ function mostrarTrueques(trueques, productos,usuarioActualId) {
             actualizarEstadoTrueque(id, 'rechazado');
         });
     });
+
+    contenedor.querySelectorAll('.trueque__icono.editar').forEach(icono => {
+        icono.addEventListener('click', () => {
+            const id = icono.getAttribute('data-id');
+            // Redirigimos a la página de edición
+            window.location.href = `/editar_trueque.html?id=${id}&usuario=${usuarioActualId}`;
+        });
+    });
+
+    contenedor.querySelectorAll('.trueque__icono.eliminar').forEach(icono => {
+    icono.addEventListener('click', async () => {
+        const id = icono.getAttribute('data-id');
+        const confirmar = confirm("¿Estás seguro de que querés eliminar este trueque?");
+        if (!confirmar) return;
+        try {
+            const res = await fetch(`http://localhost:3000/api/trueques/${id}`, {
+                method: "DELETE"
+            });
+
+            const result = await res.json();
+            if (!res.ok) throw new Error(result.error || "Error al eliminar");
+
+            alert("Trueque eliminado con éxito.");
+            window.location.reload();
+        } catch (err) {
+            console.error("Error al eliminar trueque:", err);
+            alert("No se pudo eliminar el trueque.");
+        }
+    });
+});
+
+
 }
 
 function editarUsuario(id) {
@@ -220,6 +266,19 @@ function actualizarEstadoTrueque(id, nuevoEstado) {
         console.error("Error actualizando el estado:", error);
         alert("Ocurrió un error al actualizar el estado del trueque.");
     });
+}
+
+document.getElementById('btn-crear-trueque').addEventListener('click', () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        crearTrueque(id);
+    });
+
+function crearTrueque(id){
+    window.location.href = `crear_trueque.html?id=${id}`;
+}
+function editarTrueque(id) {
+    window.location.href = `editar_trueque.html?id=${id}`;
 }
 
 

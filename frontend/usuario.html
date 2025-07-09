@@ -14,7 +14,7 @@
 <body>
     <header class="header">
         <nav class="navegacion contenedor">
-            <a class="navegacion__titulo" href="#">Trueque Libre</a>
+            <a class="navegacion__titulo" href="index.html">Trueque Libre</a>
         </nav>
     </header>
 
@@ -46,7 +46,10 @@
 <!-- MIS TRUEQUES -->
 <section class="mis-trueques">
     <div class="contenedor">
-        <h3 class="centrar-texto no-margin mis-trueques__titulo">Mis Trueques</h3>
+        <div class="mis-trueques__encabezado">
+            <h3 class="no-margin">Mis Trueques</h3>
+            <button id="btn-crear-trueque" class="btn btn--verde">Crear Trueque</button>
+        </div>
         <div class="trueques" id="mis-trueques">
             <!-- Acá se insertan dinámicamente los trueques -->
         </div>
