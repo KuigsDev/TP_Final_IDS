@@ -81,7 +81,7 @@ docker compose up --build
 - Al eliminar un usuario, sus objetos y trueques asociados también se eliminan (`ON DELETE CASCADE`).
 - El estado inicial de cada trueque es `"Pendiente"`.
 
-## 📄 Datos de ejemplo
+## Datos de ejemplo
 
 La base de datos viene con datos precargados. Por ejemplo:
 
