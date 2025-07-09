@@ -12,6 +12,12 @@ async function getAllUsuarios(){
     return result.rows;
 }
 async function getMiUsuario(id) {
+//Se hace un SELECT con múltiples LEFT JOIN para traer todo en una sola consulta:
+//usuarios u: el usuario principal
+//objetos p: los productos publicados por el usuario
+//trueques t: todos los trueques donde: el usuario es solicitante o uno de sus productos está involucrado
+//objetos o1, o2: el objeto ofrecido y deseado del trueque
+//usuarios us, ud: nombres del solicitante y destinatario del trueque
     const result = await dbClient.query(`
         SELECT 
             u.id AS usuario_id,
@@ -63,9 +69,10 @@ async function getMiUsuario(id) {
     `, [id]);
 
     const rows = result.rows;
-
+    //Se guarda el resultado en rows. Si no hay filas, retorna null.
     if (rows.length === 0) return null;
 
+    //Se arma el objeto usuario
     const usuario = {
         id: rows[0].usuario_id,
         nombre: rows[0].usuario_nombre,
@@ -75,10 +82,21 @@ async function getMiUsuario(id) {
         imagen: rows[0].usuario_imagen
     };
 
+    //Se usa un Map() para evitar duplicados. Por cada fila:
+    //Si hay un producto (producto_id) que no está en el map, se agrega.
+    //Guarda nombre, descripción, categoría, imagen, etc.
     const productosPropiosMap = new Map();
+    //Se analiza si el usuario participó en trueques con objetos ofrecidos o deseados. Se agregan al map:
+    //ofrecido_id y ofrecido_nombre
+    //deseado_id y deseado_nombre
+    //Aunque el objeto no sea del usuario, se guarda por estar relacionado con él en algún trueque.
     const productosTruequesMap = new Map();
+    //Si hay un trueque_id no registrado, se agrega:
+    // IDs de objetos ofrecido y deseado
+    // Fecha y estado del trueque
+    // Quién lo solicitó (nombre)
+    // A quién se le ofrece (destinatario)
     const truequesMap = new Map();
-
     for (const row of rows) {
         // Solo productos propios del usuario
         if (row.producto_id && !productosPropiosMap.has(row.producto_id)) {

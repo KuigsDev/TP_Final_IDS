@@ -3,7 +3,7 @@ create table usuarios(
     nombre varchar(50) not null,
     mail varchar(50) not null,
     clave varchar(16) not null,
-    ubicacion varchar(500) not null,
+    ubicacion varchar(50) not null,
     reputacion int not null,
     imagen varchar(100) not null
 );

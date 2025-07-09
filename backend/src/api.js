@@ -90,13 +90,17 @@ app.get("/api/health", async(req,res)=>{
     res.json({status:"Hola"})
 });
 
-//get all
+// Retorna todos los usuarios
 app.get("/api/usuarios", async(req,res)=>{
     const usuarios =await getAllUsuarios();
     res.json(usuarios);
 });
 
-//get one
+//Devuelve toda la información del perfil de un usuario
+//Datos del usuario
+//Objetos publicados
+//Los trueques en los que participó
+//Los objetos involucrados en esos trueques
 app.get("/api/usuarios/:id",async(req,res)=>{
     try {
         const data = await getMiUsuario(req.params.id);
@@ -108,6 +112,7 @@ app.get("/api/usuarios/:id",async(req,res)=>{
     }
 });
 
+//Retorna un unico usuario
 app.get("/api/usuario/:id", async (req, res) => {
     try {
         const data = await getUsuario(req.params.id);
@@ -121,10 +126,11 @@ app.get("/api/usuario/:id", async (req, res) => {
     }
 });
 
+//Registra a un usuario en el sistema solo si el correo no está repetido
 app.post("/api/usuarios", upload.single("imagen"), async (req, res) => {
     const { nombre, mail, clave, ubicacion } = req.body;
 
-    if (!nombre || !mail || !clave || !ubicacion) {
+    if (!nombre || !mail || !clave || !ubicacion || !req.file) {
         return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
 
@@ -155,7 +161,7 @@ app.post("/api/usuarios", upload.single("imagen"), async (req, res) => {
 
 
 
-//update
+//Actualiza un usuario
 app.put("/api/usuarios/:id", upload.single('imagen'), async (req, res) => {
     const id = req.params.id;
     const { nombre, mail, clave, ubicacion } = req.body;
@@ -188,7 +194,7 @@ app.put("/api/usuarios/:id", upload.single('imagen'), async (req, res) => {
 });
 
 
-//delete
+//Borra un usuario
 app.delete("/api/usuarios/:id", async (req, res) => {
     const id = req.params.id;
     if (!id) {
@@ -223,14 +229,13 @@ const {
     updateObjeto} = require("./scripts/crud_objetos");
 
 
-//Obtener todos los objetos
-
+//Retorna todos los objetos
 app.get("/api/objetos", async(req,res) =>{
     const objetos = await getAllObjetos();
     res.json(objetos);
 });
 
-//Últimos 9 objetos con nombre del dueño
+//Retorna los ultimos 9 objetos mas recientes con nombre del dueño
 app.get("/api/objetos/recientes", async (req, res) => {
     try {
         const result = await getObjetosRecientes();
@@ -241,13 +246,13 @@ app.get("/api/objetos/recientes", async (req, res) => {
     }
 });
 
-//Obtener un objeto
+//Retorna un objeto
 app.get("/api/objetos/:id", async(req,res)=>{
     const objeto = await getOneObjeto(req.params.id);
     res.json(objeto);
 });
 
-//Obtener objetos de usuario
+//Retorna objetos de un usuario
 app.get("/api/usuarios/objetos/:id", async (req,res) =>{
     try {
         const objetos = await getFromUsuario(req.params.id);
@@ -257,7 +262,7 @@ app.get("/api/usuarios/objetos/:id", async (req,res) =>{
         res.status(500).json({ error: "Error al obtener objetos" });
     }
 });
-
+//Retorna objetos que no son de un usuario
 app.get("/api/objetos/otros/:id", async (req, res) => {
     const solicitanteId = req.params.id;
     try {
@@ -350,6 +355,8 @@ const {
     deleteTrueque,
     } = require("./scripts/crud_trueques");
 
+
+//Actualiza el estado de un trueque segun el usurio destinatario Acepte o Rechace el trueque
 app.put("/api/trueques/:id", async (req, res) => {
     const { estado } = req.body;
     const { id } = req.params;
@@ -367,6 +374,7 @@ app.put("/api/trueques/:id", async (req, res) => {
     }
 });
 
+//Solicita un trueque a un usuario
 app.post("/api/trueques", async (req, res) => {
     const {
         objeto_ofrecido_id,
@@ -391,7 +399,7 @@ app.post("/api/trueques", async (req, res) => {
         res.status(500).json({ error: "Error interno del servidor" });
     }
 });
-
+//El Solicitante puede editar el trueque
 app.put("/api/trueques/editar/:id", async (req, res) => {
     const truequeId = req.params.id;
     const { objeto_ofrecido_id, objeto_deseado_id, fecha, usuario_solicitante_id } = req.body;
@@ -426,6 +434,7 @@ app.put("/api/trueques/editar/:id", async (req, res) => {
     }
 });
 
+//Retorna un trueque
 app.get("/api/trueques/:id", async (req, res) => {
     const result = await getTrueque(req.params.id);
     if (result.rowCount === 0) {
@@ -434,6 +443,7 @@ app.get("/api/trueques/:id", async (req, res) => {
     res.json(result.rows[0]);
 });
 
+//El solicitante puede borrar un trueque
 app.delete("/api/trueques/:id", async (req, res) => {
     const { id } = req.params;
     try {
