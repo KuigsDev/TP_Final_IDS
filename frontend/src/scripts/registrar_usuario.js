@@ -43,5 +43,5 @@ document.getElementById('registro-form').addEventListener('submit', async functi
     }
 });
 document.getElementById('btn-cerrar').addEventListener('click', () => {
-        window.location.href = 'usuarios.html';
-    });
+        window.location.href = 'index.html';
+});

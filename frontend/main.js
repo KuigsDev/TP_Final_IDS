@@ -1,4 +1,4 @@
-function createCards(data){
+function createCards(data){ 
     //console.log("Este es el valor de data",data); 
     //title, image, description, category, state, date, user owner, 
     const card = document.createElement("div");
@@ -75,7 +75,8 @@ function createCards(data){
                 let likes = JSON.parse(localStorage.getItem('likes'))|| {};
                 if(!likes[data.id]){
                     likes[data.id] = {
-                        img: `src/img/objetos/${data?.id}.jpg`, 
+                        img: `http://localhost:3000/img/objetos/${data?.id}.jpg`,
+                        //img: `src/img/objetos/${data?.id}.jpg`, 
                         nombre : data?.nombre,
                         descripcion : data?.descripcion, 
                         categoria : data?.categoria, 
@@ -98,8 +99,8 @@ function createCards(data){
         }
     });
     
-    console.log(data?.id)
-    img.setAttribute("src",`src/img/objetos/${data?.id}.jpg`);
+    img.setAttribute("src",`http://localhost:3000/img/objetos/${data?.id}.jpg`);
+    // img.setAttribute("src",`src/img/objetos/${data?.id}.jpg`);
     img.style.pointerEvents = 'none';
     button_info.setAttribute("href",`usuario.html?id=${data?.usuario_id}`);
 
@@ -130,7 +131,8 @@ function createCards(data){
                 let likes = JSON.parse(localStorage.getItem('likes')) || {};
                 if(!likes[data.id]){
                     likes[data.id] = {
-                        img: `src/img/objetos/${data?.id}.jpg`, 
+                        img: `http://localhost:3000/img/objetos/${data?.id}.jpg`,
+                        //img: `src/img/objetos/${data?.id}.jpg`, 
                         nombre : data?.nombre,
                         descripcion : data?.descripcion, 
                         categoria : data?.categoria, 
@@ -414,35 +416,16 @@ function search(){
 
                 const li = document.createElement('li');
                 li.classList.add('suggestion-item');
-
-                const img = document.createElement('img');
-                img.src = `src/img/objetos/${objeto.id}.jpg`; 
-                img.alt = objeto.nombre;
                 const title = document.createElement('h2');
                 title.textContent = objeto.nombre;
-
-                const description = document.createElement('p');
-                description.classList.add("suggestion-item_description");
-                description.textContent = objeto.descripcion;
-                
-                const category = document.createElement('p');
-                category.classList.add("suggestion-item_category")
-                category.textContent = objeto.categoria;  
-                const condition = document.createElement('p');
-                condition.classList.add("suggestion-item_condition")
-                condition.textContent = objeto.estado; 
-                
-                li.appendChild(img);
+    
                 li.appendChild(title);
-                li.appendChild(description);
-                li.appendChild(category);
-                li.appendChild(condition);
 
                 li.addEventListener('click', () => {
-                    input.value = match;
+                    input.value = '';
                     suggestionsList.innerHTML = '';
                     list.style.display = 'none';
-                    alert(`Elegiste: ${match}`);
+                    window.location.href=`usuario.html?id=${objeto.usuario_id}`;
                 });
 
                 suggestionsList.appendChild(li);
