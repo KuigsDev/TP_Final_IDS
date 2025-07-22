@@ -101,7 +101,7 @@ function createCards(data){
     console.log(data?.id)
     img.setAttribute("src",`src/img/objetos/${data?.id}.jpg`);
     img.style.pointerEvents = 'none';
-    button_info.setAttribute("href","#");
+    button_info.setAttribute("href",`usuario.html?id=${data?.usuario_id}`);
 
     // Setear Contenido
     title.textContent = data?.nombre || `Nombre del Trueque`; 
@@ -185,7 +185,7 @@ function loadView(route){
                 sessionStorage.setItem("page",route); 
                 document.getElementById('root-app').innerHTML = html; 
                 let script = document.createElement("script"); 
-                script.setAttribute("src",`${route}.js`); 
+                script.setAttribute("src",`src/scripts/${route}.js`); 
                 document.body.appendChild(script); 
             })
             .catch(err => console.error("Error al cargar vista: ",err))
