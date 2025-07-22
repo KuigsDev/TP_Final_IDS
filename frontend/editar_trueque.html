@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Editar Trueque</title>
+    <link rel="stylesheet" href="src/css/normalize.css" />
+    <link rel="stylesheet" href="src/css/variables_globales.css" />
+    <link rel="stylesheet" href="src/css/login.css" />
+    <link rel="stylesheet" href="src/css/ofrecer_trueque.css" />
+</head>
+<body>
+    <main class="contenedor login">
+    <h1>Editar Trueque</h1>
+    <form id="form-editar-trueque" class="formulario-login">
+        <div class="campo">
+            <label for="objeto_ofrecido"><strong>Objeto ofrecido</strong></label>
+            <select id="objeto_ofrecido" name="objeto_ofrecido" required>
+                <option value="" disabled selected>--Selecciona Objeto--</option>
+            </select>
+        </div>
+
+        <div class="campo">
+        <label for="objeto_deseado"><strong>Objeto deseado</strong></label>
+        <select id="objeto_deseado" name="objeto_deseado" required>
+            <option value="" disabled selected>--Selecciona Objeto--</option>
+        </select>
+        </div>
+
+        <div class="campo">
+        <label for="fecha"><strong>Fecha</strong></label>
+        <input type="date" id="fecha" name="fecha" required />
+        </div>
+
+        <div class="acciones">
+        <button type="submit" class="btn">Guardar Cambios</button>
+        <a href="#" id="btn-cancelar" class="btn btn-secundario">Cancelar</a>
+        </div>
+    </form>
+    </main>
+
+    <script src="src/scripts/editar_trueque.js"></script>
+</body>
+</html>

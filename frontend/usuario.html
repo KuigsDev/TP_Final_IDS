@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trueque Libre</title>
+    <link rel="preload" href="src/css/normalize.css" as="style">
+    <link rel="preload" href="src/css/variables_globales.css" as="style">
+    <link rel="preload" href="src/css/css_usuario.css" as="style">
+    <link rel="stylesheet" href="src/css/normalize.css">
+    <link rel="stylesheet" href="src/css/variables_globales.css">
+    <link rel="stylesheet" href="src/css/css_usuario.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navegacion contenedor">
+            <a class="navegacion__titulo" href="index.html">Trueque Libre</a>
+            <a class="navegacion__link" href="usuarios.html">Usuarios</a>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="usuario contenedor" id="usuario-info">
+        </div>
+    </main>
+
+    <!-- MIS PRODUCTOS -->
+<section class="mis-productos">
+    <div class="contenedor">
+        <div class="mis-productos__encabezado">
+            <h3 class="no-margin">Mis Objetos</h3>
+            <button id="abrir_ventana" class="btn btn--verde" onclick="abrirVentana()">Publicar Objeto</button>
+        </div>
+            <div id="ventana" class="ventana">
+            <div class="ventana-backdrop">
+                <div id="ventana-content" class="ventana-content">
+                <div id="contenido"></div>
+                </div>
+            </div>
+        </div>
+        <div class="productos" id="mis-productos">
+            <!-- Acá se insertan dinámicamente los productos -->
+        </div>
+    </div>
+</section>
+
+<!-- MIS TRUEQUES -->
+<section class="mis-trueques">
+    <div class="contenedor">
+        <div class="mis-trueques__encabezado">
+            <h3 class="no-margin">Mis Trueques</h3>
+            <button id="btn-crear-trueque" class="btn btn--verde">Crear Trueque</button>
+        </div>
+        <div class="trueques" id="mis-trueques">
+            <!-- Acá se insertan dinámicamente los trueques -->
+        </div>
+    </div>
+</section>
+    <footer>
+        <p class="centrar-texto">Todos los derechos reservados Trueque Libre 2025</p>
+    </footer>
+<script type="module" src="src/scripts/usuario.js"></script>
+<script type="module" src="src/scripts/objeto.js"></script>
+</body>
+</html>

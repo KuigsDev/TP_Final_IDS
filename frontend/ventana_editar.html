@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventana Nueva</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar objeto</title>
+    <link rel="stylesheet" href="src/css/variables_globales.css">
+    <link rel="stylesheet" href="src/css/normalize.css">
+    <link rel="stylesheet" href="src/css/css_objetos.css">
+</head>
+<body style="padding: 1rem">
+
+    
+    <h3>Editar objeto</h3>
+    <h5 class="pasos">Seleccione la nueva categoria de su objeto</h5>
+<form>
+    <div class="categoria">
+        <label for="categoriaSelect"><strong>Categoría</strong></label>
+            <div class="opciones">
+                <select id="categoriaSelect" class="subcategorias" name="categoria">
+                    <option id="Deportes" value="Deportes">Deportes</option>
+                    <option id="Muebles" value="Muebles">Muebles</option>
+                    <option id="Electronica" value="Electronica">Electronica</option>
+                    <option id="Ropa" value="Ropa/Calzado">Ropa/Calzado</option>
+                    <option id="Electrodomesticos" value="Electrodomesticos">Electrodomesticos</option>
+                    <option id="Transporte" value="Transporte">Transporte</option>
+                    <option id="Instrumentos" value="Instrumentos">Instrumentos</option>
+                    <option id="Libros" value="Libros">Libros</option>
+                    <option id="Oficina" value="Oficina">Oficina</option>
+                    <option id="Cocina" value="Cocina">Cocina</option>
+                    <option id="Juguetes" value="Juguetes">Juguetes</option>
+                    <option id="Hogar" value="Hogar">Hogar</option>
+                    <option id="Otros" value="Otros">Otros</option>
+                </select>
+            </div>
+    </div>
+</form>
+<h5 class="pasos">Ingrese el nuevo nombre de su objeto</h5>
+    <input id="nombre-producto" class="datos_producto" type="text" placeholder="Nombre del producto">
+
+    <h5 class="pasos">Seleccione el estado de su objeto</h5>
+<form>
+    <div class="categoria">
+        <label for="categoriaSelect"><strong>Estado del objeto</strong></label>
+            <div class="opciones">
+                <select id="estadoSelect" class="subcategorias" name="categoria">
+                    <option id="Nuevo" value="Nuevo">Nuevo</option>
+                    <option id="Usado" value="Usado">Usado</option>
+                    <option id="Reacondicionado" value="Reacondicionado">Reacondicionado</option>
+                </select>
+            </div>
+    </div>
+</form>
+
+    <h5 class="pasos">Agregue mas imágenes de su objeto</h5>
+    <input id="imagen-producto" class="datos_producto" type="file" placeholder="Imagen producto" accept=".jpg, .jpeg, .png">
+
+    <h5 class="pasos">Ingrese una nueva descripción</h5>
+    <input id="descripcion-producto" class="datos_producto" type="text" placeholder="Descripción del objeto">
+</body>
+</html>
+<div class="botones">
+    <button onclick="cerrarVentanaEditar()" class="boton-cerrar">Cerrar</button>
+    <button  class="boton-confirmar">Confirmar</button>
+</div>
+    <script src="/frontend/src/scripts/objeto.js"></script>
+</body>
+</html>

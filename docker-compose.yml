@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:17
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.volumes/postgres/data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=trueque_libre
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres 
+      DB_NAME: trueque_libre
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run dev
+  frontend:
+    image: nginx:stable-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+    depends_on:
+      - backend

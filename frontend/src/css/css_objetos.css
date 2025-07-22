@@ -1,0 +1,260 @@
+html{
+    box-sizing: border-box;  /* Ajusta segun el tamaño del dispositivo*/
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+
+body{
+    background-color: var(--fondo_principal);
+}
+
+.header{
+    background-color: #9BA6B2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 95px;
+    padding: 5px 10%;
+    
+}
+
+.header .nav{
+    order: 1;
+}
+
+.header .secciones{
+    list-style: none;
+}
+
+
+.header .secciones li{
+    display: inline-block;
+    padding: 0 20px;
+
+}
+
+.header .secciones li:hover{
+    transform: scale(1.2);
+
+}
+
+.header .secciones li a:hover{
+    color: white;
+    
+}
+
+.header .secciones a{
+    font-weight: 700;
+    color: var(--botones_principales) ;
+    text-decoration: none;
+}
+
+.header .Logo{
+    cursor: pointer;
+    order: 3;
+    margin-left: auto;
+}
+
+.header .Logo img{
+    height: 70px;
+    width: auto;
+
+}
+
+
+
+h2 ,h3{
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+.pasos{
+    text-align: center;
+    margin-top: 20px ;
+    margin-bottom: 10px;
+}
+
+.categoria{
+    background-color: var(--fondo_suave);
+    font-size: 0.8em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    flex-wrap: wrap;
+    border: 4px;
+    border-style: solid;
+    border-radius: 6px;
+    padding: 10px;
+    cursor: pointer;
+    max-width: 800px;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+
+.opciones{
+    display: flex ;
+    font-size: 1em;
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 6px;
+}
+
+.subcategorias{
+    border: 4px;
+    background-color: var(--botones_principales);
+    border-style: solid;
+    padding: 5px 5px;
+    border-color: black;
+    border-radius: 10px;
+    text-align: center;
+    transition: ease-in 0.2s;
+    cursor: pointer;
+}
+
+
+
+@media (min-width: 768px){
+    .categoria{
+        padding: 10px 15px;
+    }
+    .subcategorias {
+        padding: 8px;
+    }
+}
+
+.subcategorias:hover{
+    scale: 1.03;
+    background-color:#7eaaeb;
+}
+
+.datos_producto {
+    background-color: var(--fondo_suave);
+    font-size: 0.8em;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    flex-wrap: wrap;
+    border: 4px;
+    border-style: solid;
+    border-radius: 6px;
+    padding: 10px;
+    max-width: 800px;
+    justify-content: center;
+    box-sizing: border-box; 
+}
+
+#descripcion{
+    margin-bottom: 10px ;
+}
+
+/* Base de la ventana */
+.ventana {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Fondo oscuro cuando esta abierta la ventana*/
+.ventana-backdrop {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenido de la ventana */
+.ventana-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 0 10px #000;
+}
+
+
+
+.ventana {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none; /* por defecto oculto */
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+}
+
+.ventana-contenido {
+    background-color: white;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+
+
+/* Permite scroll interno si el contenido excede el alto de la pantalla */
+.ventana-content,
+.ventana-contenido {
+    max-height: 90vh;         /* Limita el alto total */
+    overflow-y: auto;         /* Activa scroll solo si es necesario */
+    overflow-x: hidden;
+}
+
+.botones{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 10px;        
+}
+
+.boton-cerrar {
+    margin-top: 20px;
+    background-color: crimson;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.boton-cerrar:hover {
+    background-color: darkred;
+}
+
+.boton-confirmar{
+    margin-top: 20px;
+    background-color: var(--botones_principales);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.boton-confirmar:hover{
+    background-color: #354F73;
+}
+

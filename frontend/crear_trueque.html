@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trueque Libre</title>
+    <link rel="stylesheet" href="src/css/normalize.css">
+    <link rel="stylesheet" href="src/css/variables_globales.css">
+    <link rel="stylesheet" href="src/css/login.css">
+    <link rel="stylesheet" href="src/css/ofrecer_trueque.css">
+</head>
+<body>
+    <main class="contenedor login">
+        <h1>Crear trueque</h1>
+        <form id="form-crear-trueque" class="formulario-login" enctype="multipart/form-data">
+            <div class="campo">
+                <label for="objeto_deseado"><strong>Objeto deseado</strong></label>
+                <select name="objeto_deseado" id="objeto_deseado">
+                    <option value="" disabled selected>--Selecciona Objeto--</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="objeto_ofrecido"><strong>Objeto ofrecido</strong></label>
+                <select name="objeto_ofrecido" id="objeto_ofrecido">
+                    <option value="" disabled selected>--Selecciona Objeto--</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="fecha"><strong>Fecha del trueque</strong></label>
+                <input type="date" name="fecha" id="fecha" required>
+            </div>
+
+            <div class="acciones">
+                <button type="submit" class="btn">Crear trueque</button>
+                <a href="#" id="btn-cancelar" class="btn btn-secundario">Cancelar</a>
+            </div>
+        </form>
+    </main>
+
+    <script src="src/scripts/crear_trueque.js"></script>
+</body>
+</html>
