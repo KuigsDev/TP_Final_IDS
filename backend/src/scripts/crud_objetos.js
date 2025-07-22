@@ -18,6 +18,7 @@ async function getRecentsObjects(){
             o.categoria,
             o.estado,
             o.fecha_publicacion,
+            o.imagen,
             o.usuario_id,
             u.nombre AS usuario_nombre 
             FROM objetos o
@@ -42,6 +43,7 @@ async function getObjects(){
         o.categoria,
         o.estado,
         o.fecha_publicacion,
+        o.imagen,
         o.usuario_id,
         u.nombre AS usuario_nombre
         FROM objetos o

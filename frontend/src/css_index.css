@@ -865,6 +865,7 @@ body{
 
 
 .img__container{
+    height: 80px;
     overflow: hidden;
 }
 .dinamic__card img{

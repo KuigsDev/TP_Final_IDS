@@ -1,173 +1,177 @@
 function createCards(data){ 
-    //console.log("Este es el valor de data",data); 
-    //title, image, description, category, state, date, user owner, 
-    const card = document.createElement("div");
-    const like = document.createElement("lottie-player"); 
-    const title = document.createElement("p");
-    const img_container = document.createElement("div"); 
-    const img = document.createElement("img");
-    const p_description = document.createElement("p");
-    const p_container_category = document.createElement("div");
-    const p_container_data = document.createElement("div"); 
-    const p_item_1 = document.createElement("p"); 
-    const p_item_2 = document.createElement("p"); 
-    const p_date = document.createElement("p");
-    const p_owner = document.createElement("p") 
-    const button_info = document.createElement("a"); 
-
-    // Agregar clases 
-    card.classList.add("dinamic__card");
-    like.classList.add("like"); 
-    title.classList.add("offers__title");
-    img_container.classList.add("img__container"); 
-    p_description.classList.add("div__offers__p"); 
-    p_description.classList.add("description"); 
-    p_container_category.classList.add("div__offers__category");
-    p_container_data.classList.add("div__offers__data"); 
-    p_item_1.classList.add("item__category"); 
-    p_item_2.classList.add("item__category"); 
-    p_date.classList.add("div__offers__p"); 
-    p_date.classList.add("date"); 
-    p_owner.classList.add("div__offers__p"); 
-    p_owner.classList.add("date"); 
-    button_info.classList.add("button__container--default");
-
-
-
-    // Convertir 
-    let fecha = new Date(data?.fecha_publicacion); 
-    let fecha_publicacion = fecha.toLocaleDateString(); 
-
-    // Setear Atributos
-    like.setAttribute("src","src/animaciones/like.json");
-    like.setAttribute("background","transparent");
-    like.setAttribute("speed","1"); 
-
-    let dataLikes = {};
-    let liked = false; 
-
     try {
-        dataLikes = JSON.parse(localStorage.getItem('likes')) || {};
-        like.addEventListener('ready',()=>{
-            setTimeout(() => {
-            if (dataLikes[data.id]) {
-                liked = true;
-                like.play();
+        const card = document.createElement("div");
+        const like = document.createElement("lottie-player"); 
+        const title = document.createElement("p");
+        const img_container = document.createElement("div"); 
+        const img = document.createElement("img");
+        const p_description = document.createElement("p");
+        const p_container_category = document.createElement("div");
+        const p_container_data = document.createElement("div"); 
+        const p_item_1 = document.createElement("p"); 
+        const p_item_2 = document.createElement("p"); 
+        const p_date = document.createElement("p");
+        const p_owner = document.createElement("p") 
+        const button_info = document.createElement("a"); 
+
+        // Agregar clases 
+        card.classList.add("dinamic__card");
+        like.classList.add("like"); 
+        title.classList.add("offers__title");
+        img_container.classList.add("img__container"); 
+        p_description.classList.add("div__offers__p"); 
+        p_description.classList.add("description"); 
+        p_container_category.classList.add("div__offers__category");
+        p_container_data.classList.add("div__offers__data"); 
+        p_item_1.classList.add("item__category"); 
+        p_item_2.classList.add("item__category"); 
+        p_date.classList.add("div__offers__p"); 
+        p_date.classList.add("date"); 
+        p_owner.classList.add("div__offers__p"); 
+        p_owner.classList.add("date"); 
+        button_info.classList.add("button__container--default");
+
+
+
+        // Convertir 
+        let fecha = new Date(data?.fecha_publicacion); 
+        let fecha_publicacion = fecha.toLocaleDateString(); 
+
+        // Setear Atributos
+        like.setAttribute("src","src/animaciones/like.json");
+        like.setAttribute("background","transparent");
+        like.setAttribute("speed","1"); 
+
+        let dataLikes = {};
+        let liked = false; 
+
+        try {
+            dataLikes = JSON.parse(localStorage.getItem('likes')) || {};
+            like.addEventListener('ready',()=>{
                 setTimeout(() => {
-                    like.pause();
-                }, 550);
+                if (dataLikes[data.id]) {
+                    liked = true;
+                    like.play();
+                    setTimeout(() => {
+                        like.pause();
+                    }, 550);
+                }
+                },500);
+            });
+
+        } catch (e) {
+            dataLikes = {};
+        }
+
+
+
+        like.addEventListener("click", () => {
+            if (!liked) {
+                liked = true;    
+                like.play();      
+                setTimeout(()=>{
+                    like.pause(); 
+                    let likes = JSON.parse(localStorage.getItem('likes'))|| {};
+                    if(!likes[data.id]){
+                        likes[data.id] = {
+                            img: `http://localhost:3000${data?.imagen}`,
+                            //img: `src/img/objetos/${data?.id}.jpg`, 
+                            nombre : data?.nombre,
+                            descripcion : data?.descripcion, 
+                            categoria : data?.categoria, 
+                            estado : data?.estado, 
+                            fecha: fecha_publicacion,
+                            usuario_nombre : data?.usuario_nombre, 
+                        };
+                        localStorage.setItem('likes',JSON.stringify(likes)); 
+                    }
+                },550)
+
+            } else {
+                liked = false;
+                let likes = JSON.parse(localStorage.getItem('likes')); 
+                if(likes[data.id]){
+                    delete likes[data.id];  
+                    localStorage.setItem('likes',JSON.stringify(likes)); 
+                }
+                like.stop();
             }
-            },500);
         });
+        
+        img.setAttribute("src",`http://localhost:3000${data?.imagen}`);
+        // img.setAttribute("src",`src/img/objetos/${data?.id}.jpg`);
+        img.style.pointerEvents = 'none';
+        button_info.setAttribute("href",`usuario.html?id=${data?.usuario_id}`);
 
-    } catch (e) {
-        dataLikes = {};
+        // Setear Contenido
+        title.textContent = data?.nombre || `Nombre del Trueque`; 
+        p_description.textContent = data?.descripcion || `Descripcion del producto`;
+        p_item_1.textContent = data?.categoria || "Categoria";
+        p_item_2.textContent = data?.estado || "Estado"; 
+
+        p_date.innerHTML = `<i class='bi bi-caret-right-fill'></i> ${fecha_publicacion}` || `<i class='bi bi-caret-right-fill'></i> Fecha`;
+        p_owner.innerHTML = `<i class='bi bi-person-fill'></i> ${data?.usuario_nombre}`|| `<i class='bi bi-person-fill'></i> Usuario`; 
+        button_info.innerHTML = "<span class='button__text--default'>Ver más</span>"; 
+
+
+        // Appendear Elementos 
+        img_container.appendChild(img);
+        p_container_category.appendChild(p_item_1); 
+        p_container_category.appendChild(p_item_2);
+        p_container_data.appendChild(p_date); 
+        p_container_data.appendChild(p_owner);
+
+        img_container.addEventListener("click",()=>{
+            if (!liked) {
+                liked = true;    
+                like.play();      
+                setTimeout(()=>{
+                    like.pause(); 
+                    let likes = JSON.parse(localStorage.getItem('likes')) || {};
+                    if(!likes[data.id]){
+                        likes[data.id] = {
+                            img: `http://localhost:3000${data?.imagen}`,
+                            //img: `src/img/objetos/${data?.id}.jpg`, 
+                            nombre : data?.nombre,
+                            descripcion : data?.descripcion, 
+                            categoria : data?.categoria, 
+                            estado : data?.estado, 
+                            fecha: fecha_publicacion,
+                            usuario_nombre : data?.usuario_nombre, 
+                        };
+                        localStorage.setItem('likes',JSON.stringify(likes)); 
+                    }
+                },550)
+                
+
+            } else {
+                liked = false;
+                let likes = JSON.parse(localStorage.getItem('likes')); 
+                if(likes[data.id]){
+                    delete likes[data.id];  
+                    localStorage.setItem('likes',JSON.stringify(likes)); 
+                }
+                like.stop();
+            }
+    })
+
+
+    card.appendChild(like);   
+    card.appendChild(img_container);
+    card.appendChild(title);
+    card.appendChild(p_description);
+    card.appendChild(p_container_category); 
+    card.appendChild(p_container_data);  
+    card.appendChild(button_info);
+
+
+
+    return card; 
+
+    }catch(e){
+        console.log('Error: ',e)
     }
-
-
-
-    like.addEventListener("click", () => {
-        if (!liked) {
-            liked = true;    
-            like.play();      
-            setTimeout(()=>{
-                like.pause(); 
-                let likes = JSON.parse(localStorage.getItem('likes'))|| {};
-                if(!likes[data.id]){
-                    likes[data.id] = {
-                        img: `http://localhost:3000/img/objetos/${data?.id}.jpg`,
-                        //img: `src/img/objetos/${data?.id}.jpg`, 
-                        nombre : data?.nombre,
-                        descripcion : data?.descripcion, 
-                        categoria : data?.categoria, 
-                        estado : data?.estado, 
-                        fecha: fecha_publicacion,
-                        usuario_nombre : data?.usuario_nombre, 
-                    };
-                    localStorage.setItem('likes',JSON.stringify(likes)); 
-                }
-            },550)
-
-        } else {
-            liked = false;
-            let likes = JSON.parse(localStorage.getItem('likes')); 
-            if(likes[data.id]){
-                delete likes[data.id];  
-                localStorage.setItem('likes',JSON.stringify(likes)); 
-            }
-            like.stop();
-        }
-    });
-    
-    img.setAttribute("src",`http://localhost:3000/img/objetos/${data?.id}.jpg`);
-    // img.setAttribute("src",`src/img/objetos/${data?.id}.jpg`);
-    img.style.pointerEvents = 'none';
-    button_info.setAttribute("href",`usuario.html?id=${data?.usuario_id}`);
-
-    // Setear Contenido
-    title.textContent = data?.nombre || `Nombre del Trueque`; 
-    p_description.textContent = data?.descripcion || `Descripcion del producto`;
-    p_item_1.textContent = data?.categoria || "Categoria";
-    p_item_2.textContent = data?.estado || "Estado"; 
-
-    p_date.innerHTML = `<i class='bi bi-caret-right-fill'></i> ${fecha_publicacion}` || `<i class='bi bi-caret-right-fill'></i> Fecha`;
-    p_owner.innerHTML = `<i class='bi bi-person-fill'></i> ${data?.usuario_nombre}`|| `<i class='bi bi-person-fill'></i> Usuario`; 
-    button_info.innerHTML = "<span class='button__text--default'>Ver más</span>"; 
-
-
-    // Appendear Elementos 
-    img_container.appendChild(img);
-    p_container_category.appendChild(p_item_1); 
-    p_container_category.appendChild(p_item_2);
-    p_container_data.appendChild(p_date); 
-    p_container_data.appendChild(p_owner);
-
-    img_container.addEventListener("click",()=>{
-        if (!liked) {
-            liked = true;    
-            like.play();      
-            setTimeout(()=>{
-                like.pause(); 
-                let likes = JSON.parse(localStorage.getItem('likes')) || {};
-                if(!likes[data.id]){
-                    likes[data.id] = {
-                        img: `http://localhost:3000/img/objetos/${data?.id}.jpg`,
-                        //img: `src/img/objetos/${data?.id}.jpg`, 
-                        nombre : data?.nombre,
-                        descripcion : data?.descripcion, 
-                        categoria : data?.categoria, 
-                        estado : data?.estado, 
-                        fecha: fecha_publicacion,
-                        usuario_nombre : data?.usuario_nombre, 
-                    };
-                    localStorage.setItem('likes',JSON.stringify(likes)); 
-                }
-            },550)
-            
-
-        } else {
-            liked = false;
-            let likes = JSON.parse(localStorage.getItem('likes')); 
-            if(likes[data.id]){
-                delete likes[data.id];  
-                localStorage.setItem('likes',JSON.stringify(likes)); 
-            }
-            like.stop();
-        }
-})
-
-
-card.appendChild(like);   
-card.appendChild(img_container);
-card.appendChild(title);
-card.appendChild(p_description);
-card.appendChild(p_container_category); 
-card.appendChild(p_container_data);  
-card.appendChild(button_info);
-
-
-
-return card; 
+   
 
 }
 
@@ -218,7 +222,6 @@ function loadView(route){
 
 
 //crear cartas con objetos recientes
-
 function createRecentsCards() {
     if(sessionStorage.getItem('recents_objects')){
         let cards = sessionStorage.getItem('recents_objects'); 
