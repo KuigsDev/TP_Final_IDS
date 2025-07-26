@@ -226,6 +226,8 @@ const {
     getObjetosRecientes,
     createObjeto,
     deleteObjeto,
+    getRecentsObjects, 
+    getObjects,
     updateObjeto} = require("./scripts/crud_objetos");
 
 
@@ -234,6 +236,46 @@ app.get("/api/objetos", async(req,res) =>{
     const objetos = await getAllObjetos();
     res.json(objetos);
 });
+
+//funciones del main: 
+
+app.get('/api/objetos_recientes', async(req,res)=>{
+    try{
+        const objetos = await getRecentsObjects();
+        if(objetos){
+            res.json({
+                success: true, 
+                objetos: objetos 
+            })
+        }else{
+            res.status(500).json({
+                success: false, 
+                message: "Error del servidor, no se pudo recuperar objetos"
+            })
+        }
+    }catch(e){
+        res.status(500).send("Error: ",e); 
+    }
+})  
+
+app.get('/api/objetos_todos', async(req,res)=>{
+    try{
+        const objetos = await getObjects(); 
+        if(objetos){
+            res.json({
+                success: true, 
+                objetos: objetos
+            })
+        }else{
+            res.status(500).json({
+                successs: false,    
+                meessage: "Error del servidor, no se pudo recuperar objetos"
+            })
+        }
+    }catch(e){
+        res.status(500).send("Error: ",e);
+    }
+})
 
 //Retorna los ultimos 9 objetos mas recientes con nombre del dueño
 app.get("/api/objetos/recientes", async (req, res) => {

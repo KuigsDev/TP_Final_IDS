@@ -8,6 +8,57 @@ const dbClient = new Pool({
     password: "postgres"
 });
 
+async function getRecentsObjects(){
+    try{
+        const response = await dbClient.query(`SELECT 
+            o.id,
+            o.nombre,
+            o.descripcion,
+            o.categoria,
+            o.estado,
+            o.fecha_publicacion,
+            o.imagen,
+            o.usuario_id,
+            u.nombre AS usuario_nombre 
+            FROM objetos o
+            JOIN usuarios u ON o.usuario_id = u.id
+            ORDER BY o.fecha_publicacion DESC LIMIT 8`);
+        if(response.rows.length === 0){
+            return undefined
+        }
+        return response.rows; 
+    }catch(e){
+        console.log('Error al consultar objetos: ',e); 
+        return undefined
+    }
+}
+
+async function getObjects(){
+    try{
+        const response = await dbClient.query(`SELECT 
+        o.id,
+        o.nombre,
+        o.descripcion,
+        o.categoria,
+        o.estado,
+        o.fecha_publicacion,
+        o.imagen,
+        o.usuario_id,
+        u.nombre AS usuario_nombre
+        FROM objetos o
+        JOIN usuarios u ON o.usuario_id = u.id
+        ORDER BY o.fecha_publicacion ASC;
+        `)
+        if(response.rows.length === 0){
+            return undefined
+        }
+        return response.rows;
+    }catch(e){
+        console.log('Error al consultar objetos: ',e); 
+        return undefined
+    }
+}
+
 async function getAllObjetos() {
     const result = await dbClient.query("SELECT * FROM objetos");
     return result.rows;
@@ -89,5 +140,7 @@ module.exports = {
     createObjeto,
     deleteObjeto,
     updateObjeto,
-    getWhereNotUsuario
+    getWhereNotUsuario,
+    getRecentsObjects, 
+    getObjects
 };
