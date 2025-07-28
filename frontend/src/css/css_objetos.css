@@ -106,7 +106,7 @@ h2 ,h3{
 
 .subcategorias{
     border: 4px;
-    background-color: var(--botones_principales);
+    background-color: var(--lineas_separadores);
     border-style: solid;
     padding: 5px 5px;
     border-color: black;
@@ -129,7 +129,7 @@ h2 ,h3{
 
 .subcategorias:hover{
     scale: 1.03;
-    background-color:#7eaaeb;
+    background-color:#ffd080;
 }
 
 .datos_producto {

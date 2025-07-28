@@ -98,46 +98,69 @@ async function getMiUsuario(id) {
     // A quién se le ofrece (destinatario)
     const truequesMap = new Map();
     for (const row of rows) {
-        // Solo productos propios del usuario
-        if (row.producto_id && !productosPropiosMap.has(row.producto_id)) {
-            productosPropiosMap.set(row.producto_id, {
-                id: row.producto_id,
-                nombre: row.producto_nombre,
-                descripcion: row.descripcion,
-                categoria: row.categoria,
-                estado: row.producto_estado,
-                fecha_publicacion: row.fecha_publicacion,
-                imagen: row.producto_imagen
-            });
-        }
+    const {
+        producto_id,
+        producto_nombre,
+        descripcion,
+        categoria,
+        producto_estado,
+        fecha_publicacion,
+        producto_imagen,
+        ofrecido_id,
+        ofrecido_nombre,
+        deseado_id,
+        deseado_nombre,
+        trueque_id,
+        objeto_ofrecido_id,
+        objeto_deseado_id,
+        trueque_estado,
+        trueque_fecha,
+        usuario_solicitante_id,
+        nombre_solicitante,
+        nombre_destinatario
+    } = row;
 
-        // Productos que aparecen en trueques (ofrecidos o deseados), aunque no sean propios
-        if (row.ofrecido_id && !productosTruequesMap.has(row.ofrecido_id)) {
-            productosTruequesMap.set(row.ofrecido_id, {
-                id: row.ofrecido_id,
-                nombre: row.ofrecido_nombre
-            });
-        }
-        if (row.deseado_id && !productosTruequesMap.has(row.deseado_id)) {
-            productosTruequesMap.set(row.deseado_id, {
-                id: row.deseado_id,
-                nombre: row.deseado_nombre
-            });
-        }
+    // Productos propios
+    if (producto_id && !productosPropiosMap.has(producto_id)) {
+        productosPropiosMap.set(producto_id, {
+            id: producto_id,
+            nombre: producto_nombre,
+            descripcion,
+            categoria,
+            estado: producto_estado,
+            fecha_publicacion,
+            imagen: producto_imagen
+        });
+    }
 
-        // Trueques
-        if (row.trueque_id && !truequesMap.has(row.trueque_id)) {
-            truequesMap.set(row.trueque_id, {
-                id: row.trueque_id,
-                producto_ofrecido_id: row.objeto_ofrecido_id,
-                producto_deseado_id: row.objeto_deseado_id,
-                estado: row.trueque_estado,
-                fecha: row.trueque_fecha,
-                usuario_solicitante_id: row.usuario_solicitante_id,
-                nombre_solicitante: row.nombre_solicitante,
-                nombre_destinatario: row.nombre_destinatario || 'Desconocido'
-            });
-        }
+    // Productos en trueques
+    if (ofrecido_id && !productosTruequesMap.has(ofrecido_id)) {
+        productosTruequesMap.set(ofrecido_id, {
+            id: ofrecido_id,
+            nombre: ofrecido_nombre
+        });
+    }
+
+    if (deseado_id && !productosTruequesMap.has(deseado_id)) {
+        productosTruequesMap.set(deseado_id, {
+            id: deseado_id,
+            nombre: deseado_nombre
+        });
+    }
+
+    // Trueques
+    if (trueque_id && !truequesMap.has(trueque_id)) {
+        truequesMap.set(trueque_id, {
+            id: trueque_id,
+            producto_ofrecido_id: objeto_ofrecido_id,
+            producto_deseado_id: objeto_deseado_id,
+            estado: trueque_estado,
+            fecha: trueque_fecha,
+            usuario_solicitante_id,
+            nombre_solicitante,
+            nombre_destinatario: nombre_destinatario || 'Desconocido'
+        });
+    }
     }
 
     return {
@@ -146,11 +169,6 @@ async function getMiUsuario(id) {
         productosTrueques: Array.from(productosTruequesMap.values()),
         trueques: Array.from(truequesMap.values())
     };
-}
-
-async function getUsuario(id){
-    const result = await dbClient.query("SELECT * FROM usuarios where id = $1",[id]);
-    return result;
 }
 
 
@@ -204,7 +222,6 @@ async function updateUsuario(nombre, mail, clave, ubicacion, imagen, id) {
 module.exports = {
     getAllUsuarios,
     getMiUsuario,
-    getUsuario,
     createUsuario,
     mailCheck,
     deleteUsuario,

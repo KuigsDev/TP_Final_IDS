@@ -5,30 +5,63 @@ document.getElementById('registro-form').addEventListener('submit', async functi
     submitButton.disabled = true;
     submitButton.textContent = 'Registrando...';
 
+    const nombre = document.getElementById('nombre').value.trim();
+    const mail = document.getElementById('email').value.trim();
+    const clave = document.getElementById('password').value;
+    const ubicacion = document.getElementById('ubicacion').value.trim();
+    const imagenInput = document.getElementById('imagen');
+    
+
+    if (nombre.length > 50) {
+    alert('El nombre no puede superar los 50 caracteres.');
+    submitButton.disabled = false;
+    submitButton.textContent = 'Registrarme';
+    return;
+    }
+    else if (mail.length > 50) {
+        alert('El mail no puede superar los 50 caracteres.');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Registrarme';
+        return;
+    }
+    else if (clave.length > 16) {
+        alert('La contraseña no puede superar los 16 caracteres.');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Registrarme';
+        return;
+    }
+    else if (ubicacion.length > 50) {
+        alert('La ubicación no puede superar los 50 caracteres.');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Registrarme';
+        return;
+    }
+    else if (imagenInput.files.length === 0) {
+    alert('Debes seleccionar una imagen para registrarte.');
+    submitButton.disabled = false;
+    submitButton.textContent = 'Registrarme';
+    return;
+    }
+
     const formData = new FormData();
 
     formData.append('nombre', document.getElementById('nombre').value);
     formData.append('mail', document.getElementById('email').value);
     formData.append('clave', document.getElementById('password').value);
     formData.append('ubicacion', document.getElementById('ubicacion').value);
-
-    const imagenInput = document.getElementById('imagen');
-    if (imagenInput.files.length > 0) {
-        formData.append('imagen', imagenInput.files[0]);
-    }
+    formData.append('imagen', document.getElementById('imagen').files[0]);
 
     try {
         const response = await fetch('http://localhost:3000/api/usuarios', {
             method: 'POST',
             body: formData
-            // No pongas Content-Type: multipart/form-data, fetch lo hace automáticamente con FormData
         });
 
         const data = await response.json();
 
         if (response.ok) {
             alert('¡Registro exitoso!');
-            window.location.replace('/index.html');
+            window.location.replace('/usuarios.html');
         } else {
             alert('Error al registrar: ' + (data.error || data.message));
         }

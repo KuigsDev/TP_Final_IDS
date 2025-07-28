@@ -18,17 +18,46 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("No se pudo cargar la información del usuario");
         });
 
-    // Guardar cambios
 // Guardar cambios
     form.addEventListener('submit', e => {
         e.preventDefault();
+
+        const nombre = document.getElementById('nombre').value.trim();
+        const mail = document.getElementById('mail').value.trim();
+        const clave = document.getElementById('clave').value;
+        const ubicacion = document.getElementById('ubicacion').value.trim();
+
+        if (nombre.length > 50) {
+            alert('El nombre no puede superar los 50 caracteres.');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Registrarme';
+            return;
+        }
+        else if (mail.length > 50) {
+            alert('El mail no puede superar los 50 caracteres.');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Registrarme';
+            return;
+        }
+        else if (clave.length > 16) {
+            alert('La contraseña no puede superar los 16 caracteres.');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Registrarme';
+            return;
+        }
+        else if (ubicacion.length > 50) {
+            alert('La ubicación no puede superar los 50 caracteres.');
+            submitButton.disabled = false;
+            submitButton.textContent = 'Registrarme';
+            return;
+        }
 
         const id = new URLSearchParams(window.location.search).get('id');
         const formData = new FormData(form); // Incluye todos los campos + archivo
 
         fetch(`http://localhost:3000/api/usuarios/${id}`, {
             method: 'PUT',
-            body: formData // NO usamos JSON.stringify
+            body: formData
         })
         .then(async res => {
             if (!res.ok) {

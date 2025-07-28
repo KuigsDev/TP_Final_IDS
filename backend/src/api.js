@@ -14,7 +14,7 @@ const createFolderIfNotExists = (folderPath) => {
     }
 };
 
-// Asegúrate de que la carpeta exista
+
 const uploadPath = path.join(__dirname, 'img/usuarios');
 const uploadObjetosPath = path.join(__dirname, 'img/objetos');
 
@@ -74,7 +74,6 @@ const uploadObjeto = multer({ storage: storageObjetos });
 const {
     getAllUsuarios,
     getMiUsuario,
-    getUsuario,
     createUsuario,
     mailCheck,
     deleteUsuario,
@@ -112,19 +111,6 @@ app.get("/api/usuarios/:id",async(req,res)=>{
     }
 });
 
-//Retorna un unico usuario
-app.get("/api/usuario/:id", async (req, res) => {
-    try {
-        const data = await getUsuario(req.params.id);
-        if (!data || data.rows.length === 0) {
-            return res.status(404).json({ error: "Usuario no encontrado" });
-        }
-        res.json({ usuario: data.rows[0] });
-    } catch (error) {
-        console.error("Error en /api/usuario/:id", error);
-        res.status(500).json({ error: "Error interno" });
-    }
-});
 
 //Registra a un usuario en el sistema solo si el correo no está repetido
 app.post("/api/usuarios", upload.single("imagen"), async (req, res) => {
@@ -158,8 +144,6 @@ app.post("/api/usuarios", upload.single("imagen"), async (req, res) => {
         return res.status(500).json({ error: "Error del servidor" });
     }
 });
-
-
 
 //Actualiza un usuario
 app.put("/api/usuarios/:id", upload.single('imagen'), async (req, res) => {
@@ -223,7 +207,6 @@ const {
     getOneObjeto,
     getWhereNotUsuario,
     getFromUsuario,
-    getObjetosRecientes,
     createObjeto,
     deleteObjeto,
     getRecentsObjects, 
@@ -276,17 +259,6 @@ app.get('/api/objetos_todos', async(req,res)=>{
         res.status(500).send("Error: ",e);
     }
 })
-
-//Retorna los ultimos 9 objetos mas recientes con nombre del dueño
-app.get("/api/objetos/recientes", async (req, res) => {
-    try {
-        const result = await getObjetosRecientes();
-        res.json(result.rows);
-    } catch (err) {
-        console.error("Error al obtener objetos recientes:", err);
-        res.status(500).json({ error: "Error al obtener objetos recientes" });
-    }
-});
 
 //Retorna un objeto
 app.get("/api/objetos/:id", async(req,res)=>{

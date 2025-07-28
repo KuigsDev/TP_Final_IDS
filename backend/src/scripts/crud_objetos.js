@@ -82,17 +82,6 @@ async function getWhereNotUsuario(usuarioId) {
     return result;
 }
 
-async function getObjetosRecientes() {
-    const result = await dbClient.query(`
-            SELECT objetos.*, usuarios.nombre AS duenio, usuarios.id AS usuario_id
-            FROM objetos
-            JOIN usuarios ON objetos.usuario_id = usuarios.id
-            ORDER BY objetos.fecha_publicacion DESC
-            LIMIT 9
-        `);
-    return result;
-}
-
 async function createObjeto(nombre, descripcion, categoria, estado, fecha_publicacion, imagen, usuario_id) {
     const result = await dbClient.query(
         "INSERT INTO objetos (nombre, descripcion, categoria, estado, fecha_publicacion, imagen, usuario_id) VALUES ($1, $2, $3, $4, $5, $6, $7)",
@@ -136,7 +125,6 @@ module.exports = {
     getAllObjetos,
     getOneObjeto,
     getFromUsuario,
-    getObjetosRecientes,
     createObjeto,
     deleteObjeto,
     updateObjeto,
