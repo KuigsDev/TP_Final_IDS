@@ -177,7 +177,6 @@ function createCards(data){
 
 // Carga dinamica de paginas 
 function loadView(route){
-    console.log(route);
     const loader = document.getElementById('loader');
     const app = document.getElementById('root-app');
     if(!(route=='index')){
@@ -239,8 +238,6 @@ const recentsCards = async() =>{
     .then(res => res.json())
     .then((res)=>{
         if(res.success){
-            console.log('Objetos recientes obtenidos'); 
-            console.log(res);
             sessionStorage.setItem("recents_objects",JSON.stringify(res)); 
             createRecentsCards(); 
             return true; 
@@ -331,8 +328,6 @@ const allCards = async()=>{
     .then(res=> res.json())
     .then((res)=>{
         if(res.success){
-            console.log('Todos los objetos obtenidos'); 
-            console.log(res); 
             sessionStorage.setItem("objects",JSON.stringify(res));
             search(); // -> function search del buscador accede a sessionStorage.getItem('objects')
             loadNewCards(); 
