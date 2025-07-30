@@ -51,7 +51,7 @@ body{
 
 
 /* Estilo Header , Navbar */
-.header__nav{
+.header__nav {
     /*background-color: #ffe600;*/
     /*background-color: rgb(198, 255, 249);*/
     background-color: var(--fondo_principal);
@@ -433,6 +433,11 @@ body{
     background: #d3e4fd;
     transition: background .2s ease;
 }
+.button__container--short:hover{
+    background: #d3e4fd;
+    transition: background .2s ease;
+}
+
 
 /* Div del trueque destacado */
 
@@ -577,6 +582,8 @@ body{
 }
 .div__offers__data p{
     background-color: rgb(251, 238, 213);
+    height: 25px;
+    overflow: hidden;
     text-align: start;
     border-radius: .3em;
     box-sizing: border-box;
@@ -696,8 +703,6 @@ body{
     font-weight: bold;
     align-items: center;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-;
-
 }
 /* 
 .div__card__trueque{
