@@ -51,6 +51,7 @@ function createCards(data){
     p_container_data.appendChild(p_date); 
     p_container_data.appendChild(p_owner);
 
+    button_info.setAttribute("href",`usuario.html?id=${data?.usuario_id}`);
 
     card.appendChild(img_container);
     card.appendChild(title);
