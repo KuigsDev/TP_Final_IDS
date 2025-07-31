@@ -82,6 +82,7 @@ function createCards(data){
                             estado : data?.estado, 
                             fecha: fecha_publicacion,
                             usuario_nombre : data?.usuario_nombre, 
+                            usuario_id: data?.usuario_id,
                         };
                         localStorage.setItem('likes',JSON.stringify(likes)); 
                     }
@@ -138,6 +139,7 @@ function createCards(data){
                             estado : data?.estado, 
                             fecha: fecha_publicacion,
                             usuario_nombre : data?.usuario_nombre, 
+                            usuario_id : data?.usuario_id,
                         };
                         localStorage.setItem('likes',JSON.stringify(likes)); 
                     }
